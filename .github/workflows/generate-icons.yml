@@ -1,0 +1,23 @@
+name: Generate PWA Icons
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'icons/**'
+      - 'screenshots/**'
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate Icons
+        run: python3 generate_icons.py
+      - name: Commit Icons
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add icons/ screenshots/
+          git diff --staged --quiet || (git commit -m "chore: add PWA icons" && git push)
