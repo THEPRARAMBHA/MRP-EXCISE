@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+
+<!-- PWA Core -->
+<meta name="theme-color" content="#111111">
+<meta name="description" content="Maharashtra State Excise MRP Calculator — 31 Calculators, 7 Categories. Educational tool for excise duty and MRP calculation.">
+<link rel="manifest" href="./manifest.json">
+
+<!-- iOS PWA Support -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MRP Calculator">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="152x152" href="./icons/icon-152.png">
+<link rel="apple-touch-icon" sizes="144x144" href="./icons/icon-144.png">
+
+<!-- Windows/Edge PWA -->
+<meta name="msapplication-TileColor" content="#111111">
+<meta name="msapplication-TileImage" content="./icons/icon-144.png">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="96x96" href="./icons/icon-96.png">
+<link rel="shortcut icon" href="./icons/icon-96.png">
+
+<!-- SEO -->
+<meta property="og:title" content="MRP Master Calculator — For State Excise Maharashtra">
+<meta property="og:description" content="Maharashtra State Excise MRP Calculator — 31 Calculators, 7 Categories.">
+<meta property="og:type" content="website">
+
+<title>MRP Master Calculator — For State Excise Maharashtra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Libre+Baskerville:wght@400;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:#111111; --white:#ffffff;
+  --g50:#fafafa; --g100:#f5f5f5; --g200:#e8e8e8;
+  --g300:#d0d0d0; --g500:#888888; --g700:#444444;
+  --serif:'Libre Baskerville',Georgia,serif;
+  --sans:'Noto Sans Devanagari','DM Sans',system-ui,sans-serif;
+  --r:0.5rem; --r-lg:0.75rem;
+  --fs-xs:0.625rem; --fs-sm:0.75rem; --fs-base:0.875rem;
+  --fs-md:0.9375rem; --fs-lg:1rem; --fs-2xl:1.1875rem; --fs-hero:2.8rem;
+}
+html{font-size:16px;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--sans);font-size:var(--fs-base);color:var(--black);
+  background:var(--white);height:100%;overflow:hidden;
+  -webkit-tap-highlight-color:transparent;}
+input,button{font-family:var(--sans);}
+
+/* APP SHELL */
+#app{height:100vh;display:flex;flex-direction:column;max-width:480px;
+  margin:0 auto;border-left:1px solid var(--g200);border-right:1px solid var(--g200);}
+.screen{display:none;flex-direction:column;height:100%;overflow:hidden;}
+.screen.active{display:flex;animation:fadeIn .18s ease;}
+@keyframes fadeIn{from{opacity:.6;transform:translateX(4px)}to{opacity:1;transform:translateX(0)}}
+.scroll-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.scroll-body::-webkit-scrollbar{width:2px;}
+.scroll-body::-webkit-scrollbar-thumb{background:var(--g300);border-radius:2px;}
+
+/* TOPBAR */
+.topbar{background:var(--black);padding:0.75rem 1rem;display:flex;
+  align-items:center;justify-content:space-between;flex-shrink:0;gap:0.5rem;}
+.topbar-left{display:flex;align-items:center;gap:0.625rem;}
+.back-btn{color:var(--white);font-size:1.4rem;font-weight:300;cursor:pointer;
+  line-height:1;padding:0.25rem 0.375rem;opacity:.85;flex-shrink:0;}
+.topbar-title{color:var(--white);font-size:var(--fs-md);font-weight:700;
+  line-height:1.35;font-family:var(--sans);letter-spacing:0;}
+.topbar-sub{color:rgba(255,255,255,.5);font-size:var(--fs-xs);margin-top:0.1rem;}
+
+/* FOOTER */
+.footer-note{background:var(--g100);border-top:1.5px solid var(--black);
+  padding:0.3rem 0.75rem;flex-shrink:0;text-align:center;line-height:1.55;}
+.fn-edu{font-size:var(--fs-xs);font-weight:700;color:var(--black);}
+.fn-warn{font-size:var(--fs-xs);color:var(--g700);}
+.fn-disc{font-size:var(--fs-xs);color:var(--black);font-weight:600;text-decoration:underline;cursor:pointer;}
+.fn-copy{font-size:0.55rem;color:var(--g500);margin-top:0.05rem;}
+
+/* SCREEN 1 */
+#s1 .scroll-body{display:flex;flex-direction:column;align-items:center;
+  padding:1.25rem 1.25rem 1rem;}
+.logo-img{width:100%;max-width:240px;height:auto;display:block;
+  margin:0 auto 1rem;}
+.disc-card{width:100%;border:1px solid var(--g300);border-radius:var(--r-lg);
+  padding:0.875rem 1rem;margin-bottom:0.875rem;background:var(--g50);}
+.disc-card-title{font-size:var(--fs-sm);font-weight:800;color:var(--black);
+  letter-spacing:.05em;margin-bottom:0.5rem;padding-bottom:0.4rem;
+  border-bottom:1px solid var(--g200);}
+.disc-card-text{font-size:var(--fs-sm);color:#444;line-height:1.7;}
+.disc-check-row{display:flex;align-items:flex-start;gap:0.5rem;
+  margin-bottom:0.875rem;width:100%;}
+.disc-cb{width:1rem;height:1rem;border:2px solid var(--black);border-radius:3px;
+  flex-shrink:0;margin-top:0.1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:background .15s;}
+.disc-cb.checked{background:var(--black);}
+.disc-cb.checked::after{content:'✓';color:var(--white);font-size:var(--fs-xs);font-weight:700;}
+.disc-cb-text{font-size:var(--fs-sm);color:#333;line-height:1.5;cursor:pointer;}
+.proceed-btn{width:100%;background:var(--black);color:var(--white);border:none;
+  border-radius:var(--r);padding:0.875rem;font-size:var(--fs-lg);font-weight:700;
+  letter-spacing:.07em;cursor:pointer;opacity:.35;pointer-events:none;
+  transition:opacity .2s;}
+.proceed-btn.enabled{opacity:1;pointer-events:all;}
+
+/* SCREEN 2 */
+#s2 .topbar{flex-direction:column;align-items:flex-start;gap:0.2rem;}
+.dash-header-row{width:100%;display:flex;align-items:center;justify-content:space-between;}
+.dash-main-title{color:var(--white);font-size:var(--fs-lg);font-weight:700;
+  font-family:var(--sans);line-height:1.35;}
+.dash-main-sub{color:rgba(255,255,255,.45);font-size:var(--fs-xs);margin-top:0.1rem;}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;
+  padding:0.875rem 1rem;}
+.cat-card{border:1px solid var(--g200);border-radius:var(--r);padding:0.75rem 0.5rem;
+  text-align:center;cursor:pointer;transition:border-color .15s,background .15s;
+  -webkit-user-select:none;user-select:none;}
+.cat-card:active{border-color:var(--black);background:var(--g50);}
+.cat-code{font-size:var(--fs-lg);font-weight:800;color:var(--black);}
+.cat-div{height:1px;background:var(--g200);margin:0.25rem 0;}
+.cat-name{font-size:var(--fs-xs);font-weight:700;color:var(--black);line-height:1.3;}
+.cat-mr{font-size:0.6rem;color:var(--g500);margin-top:0.2rem;}
+.cat-count{font-size:0.6rem;color:var(--g500);margin-top:0.2rem;}
+.dash-hint{margin:0 1rem 0.625rem;border:1px solid var(--g200);border-radius:var(--r);
+  padding:0.4rem 0.75rem;background:var(--g50);font-size:var(--fs-xs);
+  color:var(--g500);text-align:center;}
+.bottom-nav{border-top:1px solid var(--g200);display:flex;justify-content:space-around;
+  padding:0.5rem 0 0.625rem;flex-shrink:0;}
+.bnav{font-size:var(--fs-sm);font-weight:500;color:var(--g500);cursor:pointer;
+  padding:0.35rem 1rem;border-bottom:2px solid transparent;transition:all .15s;}
+.bnav.on{color:var(--black);font-weight:700;border-bottom-color:var(--black);}
+
+/* SCREEN 3 */
+.type-section-label{font-size:var(--fs-xs);font-weight:700;color:var(--g500);
+  letter-spacing:.07em;padding:0.75rem 1rem 0.375rem;}
+.type-list{padding:0 1rem;display:flex;flex-direction:column;gap:0.375rem;}
+.type-item{border:1px solid var(--g200);border-radius:var(--r);
+  padding:0.75rem 0.875rem;cursor:pointer;display:flex;align-items:center;
+  justify-content:space-between;transition:all .15s;}
+.type-item:active{border-color:var(--g500);background:var(--g50);}
+.type-item.sel{border:1.5px solid var(--black);background:var(--g100);}
+.ti-left{display:flex;align-items:center;gap:0.625rem;}
+.ti-code{font-size:var(--fs-sm);font-weight:800;background:var(--g200);
+  border-radius:4px;padding:0.15rem 0.45rem;font-family:monospace;
+  color:var(--black);white-space:nowrap;}
+.type-item.sel .ti-code{background:var(--black);color:var(--white);}
+.ti-name{font-size:var(--fs-base);font-weight:600;color:var(--black);line-height:1.3;}
+.ti-mr{font-size:var(--fs-xs);color:var(--g500);margin-top:0.15rem;}
+.ti-arr{font-size:1.1rem;color:var(--g300);font-weight:300;flex-shrink:0;}
+.type-item.sel .ti-arr{color:var(--black);font-weight:600;}
+.open-btn-wrap{padding:0.75rem 1rem 0;}
+.open-btn{width:100%;background:var(--black);color:var(--white);border:none;
+  border-radius:var(--r);padding:0.875rem;font-size:var(--fs-base);font-weight:700;
+  letter-spacing:.06em;cursor:pointer;}
+
+/* SCREEN 4 - CALCULATOR */
+.stage-wrap{border:1px solid var(--g200);border-radius:var(--r-lg);
+  overflow:hidden;margin:0 1rem 0.625rem;}
+.stage-hdr{background:var(--g100);padding:0.5rem 0.75rem;
+  border-bottom:1px solid var(--g200);display:flex;align-items:center;gap:0.5rem;}
+.stage-hdr-toggle{cursor:pointer;-webkit-user-select:none;user-select:none;}
+.stage-num{width:1.5rem;height:1.5rem;background:var(--black);color:var(--white);
+  border-radius:50%;font-size:var(--fs-sm);font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-family:var(--serif);}
+.stage-title{font-size:var(--fs-base);font-weight:700;color:var(--black);letter-spacing:.02em;}
+.stage-sub-mr{font-size:var(--fs-xs);color:var(--g500);margin-top:0.1rem;}
+.stage-badge{font-size:0.55rem;font-weight:800;padding:0.15rem 0.4rem;
+  border-radius:3px;background:var(--black);color:var(--white);
+  margin-left:0.3rem;letter-spacing:.05em;vertical-align:middle;}
+.fe-edit-btn-visible{
+  display:inline-flex;
+  align-items:center;
+  gap:0.3rem;
+  border:1.5px solid var(--black);
+  border-radius:5px;
+  padding:0.35rem 0.75rem;
+  font-size:var(--fs-xs);
+  font-weight:700;
+  color:var(--black);
+  background:var(--white);
+  cursor:pointer;
+  font-family:var(--sans);
+  letter-spacing:.03em;
+  width:100%;
+  justify-content:center;
+}
+.fe-edit-btn-visible:active{background:var(--black);color:var(--white);}
+.fe-edit-btn{
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:4px;
+  padding:0.2rem 0.5rem;
+  font-size:0.6rem;
+  font-weight:700;
+  color:rgba(255,255,255,.85);
+  background:transparent;
+  cursor:pointer;
+  white-space:nowrap;
+  flex-shrink:0;
+  font-family:var(--sans);
+  letter-spacing:.03em;
+}
+.fe-edit-btn:active{background:rgba(255,255,255,.15);}
+.fe-highlight{
+  animation: feHighlight 2s ease;
+}
+@keyframes feHighlight{
+  0%{box-shadow:0 0 0 3px #c47f00;}
+  70%{box-shadow:0 0 0 3px #c47f00;}
+  100%{box-shadow:none;}
+}
+.stage-modified{font-size:0.55rem;font-weight:800;padding:0.15rem 0.4rem;
+  border-radius:3px;background:#c47f00;color:var(--white);
+  margin-left:0.3rem;letter-spacing:.05em;vertical-align:middle;}
+.stage-body{padding:0.75rem;}
+
+/* Formula table */
+.ftbl{width:100%;border-collapse:collapse;font-size:var(--fs-xs);table-layout:fixed;}
+.ftbl th{background:var(--black);color:var(--white);padding:0.35rem 0.5rem;
+  text-align:left;font-size:0.6rem;font-weight:600;letter-spacing:.04em;}
+.ftbl td{padding:0.375rem 0.5rem;border-bottom:1px solid var(--g100);
+  vertical-align:top;color:#333;line-height:1.55;word-wrap:break-word;}
+.ftbl tr:last-child td{border-bottom:none;}
+.ftbl tr:nth-child(even) td{background:var(--g50);}
+.ftbl td:nth-child(1){width:8%;text-align:center;font-weight:800;color:var(--black);}
+.ftbl td:nth-child(2){width:28%;font-size:0.65rem;font-weight:600;}
+.ftbl td:nth-child(3){width:64%;}
+.srno{font-weight:800;text-align:center;color:var(--black);}
+.fhi{background:var(--black);color:var(--white);border-radius:3px;
+  padding:0.1rem 0.35rem;font-size:0.6rem;font-weight:700;
+  display:inline-block;margin-bottom:0.25rem;letter-spacing:.04em;}
+.fopt{font-size:var(--fs-xs);line-height:1.7;color:#333;}
+.fopt strong{color:var(--black);}
+
+/* Inputs */
+.inp-group{margin-bottom:0.75rem;}
+.inp-lbl{font-size:var(--fs-sm);font-weight:700;color:#333;margin-bottom:0.15rem;}
+.inp-lbl-mr{font-size:var(--fs-xs);color:var(--g500);margin-bottom:0.3rem;}
+.inp-field{width:100%;border:1.5px solid var(--black);border-radius:var(--r);
+  padding:0.625rem 0.75rem;font-size:var(--fs-2xl);font-weight:700;color:var(--black);
+  outline:none;transition:box-shadow .15s;background:var(--white);}
+.inp-field:focus{box-shadow:0 0 0 3px rgba(0,0,0,.08);}
+.inp-field::placeholder{font-weight:400;color:var(--g300);font-size:var(--fs-base);}
+.chips{display:flex;gap:0.3rem;flex-wrap:wrap;margin-top:0.375rem;}
+.chip{border:1px solid var(--g300);border-radius:5px;padding:0.3rem 0.625rem;
+  font-size:var(--fs-sm);font-weight:600;cursor:pointer;color:var(--g700);
+  transition:all .15s;-webkit-user-select:none;user-select:none;}
+.chip:active{border-color:var(--black);color:var(--black);}
+.chip.on{background:var(--black);color:var(--white);border-color:var(--black);}
+.calc-btn{width:100%;background:var(--black);color:var(--white);border:none;
+  border-radius:var(--r);padding:0.875rem;font-size:var(--fs-lg);font-weight:700;
+  letter-spacing:.07em;cursor:pointer;margin-top:0.25rem;}
+
+/* Result */
+.r-hero{text-align:center;padding:0.875rem 0 0.75rem;
+  border-bottom:1px solid var(--g200);margin-bottom:0.75rem;}
+.r-hero-lbl{font-size:var(--fs-xs);color:var(--g500);letter-spacing:.09em;font-weight:700;}
+.r-hero-val{font-family:var(--serif);font-size:var(--fs-hero);font-weight:700;
+  color:var(--black);line-height:1.05;}
+.r-hero-dec{font-size:var(--fs-xs);color:var(--g500);margin-top:0.2rem;}
+.r-note{font-size:0.6rem;color:var(--g500);margin-top:0.25rem;
+  font-style:italic;}
+.rsub{margin-bottom:0.625rem;}
+.rsub-hdr{font-size:var(--fs-xs);font-weight:700;color:var(--g500);
+  letter-spacing:.07em;border-bottom:1px solid var(--g200);
+  padding-bottom:0.25rem;margin-bottom:0.3rem;}
+.rrow{display:flex;justify-content:space-between;align-items:center;padding:0.25rem 0;}
+.rrow-alt{background:var(--g50);padding:0.25rem 0.375rem;
+  border-radius:3px;margin:0.1rem 0;}
+.rlbl{font-size:var(--fs-sm);color:#555;}
+.rval{font-size:var(--fs-base);font-weight:700;color:var(--black);}
+.rval-lg{font-size:var(--fs-lg);font-weight:700;color:var(--black);}
+.ract{background:var(--black);color:var(--white);border-radius:3px;
+  padding:0.1rem 0.375rem;font-size:0.6rem;font-weight:700;margin-left:0.3rem;}
+.rina{color:var(--g300);text-decoration:line-through;font-size:var(--fs-xs);font-weight:400;}
+.final-strip{background:var(--black);border-radius:var(--r);padding:0.875rem;
+  display:flex;align-items:center;justify-content:space-between;margin-top:0.75rem;}
+.fs-lbl{font-size:var(--fs-sm);font-weight:700;color:rgba(255,255,255,.55);letter-spacing:.04em;}
+.fs-val{font-family:var(--serif);font-size:1.625rem;font-weight:700;color:var(--white);}
+.act-row{display:flex;gap:0.5rem;margin-top:0.625rem;}
+.act-btn{flex:1;border:1.5px solid var(--black);border-radius:var(--r);
+  padding:0.75rem 0.25rem;font-size:var(--fs-sm);font-weight:700;
+  color:var(--black);background:var(--white);cursor:pointer;text-align:center;}
+.act-btn:active{background:var(--black);color:var(--white);}
+
+/* SCREEN 5 - HISTORY */
+.hist-list{padding:0.75rem 1rem;display:flex;flex-direction:column;gap:0.4rem;}
+.hist-item{border:1px solid var(--g200);border-radius:var(--r);
+  padding:0.625rem 0.75rem;display:flex;align-items:center;
+  justify-content:space-between;gap:0.5rem;}
+.hist-item.first{border-color:var(--black);}
+.hist-left{flex:1;min-width:0;}
+.h-code{font-size:var(--fs-sm);font-weight:800;color:var(--black);}
+.h-meta{font-size:var(--fs-xs);color:var(--g500);margin-top:0.15rem;}
+.h-btns{display:flex;gap:0.375rem;flex-shrink:0;}
+.h-mrp-box{border:1.5px solid var(--black);border-radius:5px;
+  padding:0.3rem 0.625rem;text-align:center;}
+.h-mrp-val{font-family:var(--serif);font-size:var(--fs-lg);font-weight:700;color:var(--black);}
+.h-mrp-lbl{font-size:0.55rem;color:var(--g500);}
+.h-reopen{border:1px solid var(--g300);border-radius:4px;
+  padding:0.25rem 0.5rem;font-size:0.6rem;font-weight:600;
+  color:var(--g700);background:var(--white);cursor:pointer;white-space:nowrap;}
+.hist-empty{text-align:center;padding:2rem 1.25rem;color:var(--g500);
+  font-size:var(--fs-sm);line-height:1.7;}
+.offline-note{text-align:center;padding:0.5rem 1rem;
+  font-size:var(--fs-xs);color:var(--g500);}
+.hist-clear-btn{display:block;margin:0.25rem 1rem;border:1px solid var(--g200);
+  border-radius:var(--r);padding:0.625rem;font-size:var(--fs-sm);
+  font-weight:600;color:var(--g500);background:var(--white);cursor:pointer;text-align:center;}
+
+/* SCREEN 6 - ABOUT */
+.about-logo-block{text-align:center;padding:1.25rem 1rem 0.875rem;
+  border-bottom:1px solid var(--g200);}
+.about-logo-box{display:inline-flex;align-items:center;justify-content:center;
+  width:3.5rem;height:3.5rem;border:2.5px solid var(--black);
+  border-radius:0.75rem;margin-bottom:0.5rem;}
+.about-logo-p{font-family:var(--serif);font-size:1.75rem;font-weight:700;color:var(--black);}
+.about-co-name{font-size:var(--fs-sm);font-weight:800;color:var(--black);letter-spacing:.07em;}
+.about-co-sub{font-size:var(--fs-xs);color:var(--g500);margin-top:0.2rem;}
+.logo-tap-count{display:none;} /* hidden tap counter */
+.about-rows{padding:0.375rem 1rem;}
+.a-row{display:flex;justify-content:space-between;align-items:flex-start;
+  padding:0.5rem 0;border-bottom:1px solid var(--g100);
+  font-size:var(--fs-sm);gap:0.5rem;}
+.a-row:last-child{border-bottom:none;}
+.a-lbl{color:var(--g500);flex-shrink:0;}
+.a-val{font-weight:700;color:var(--black);text-align:right;
+  font-size:var(--fs-xs);line-height:1.5;}
+.about-disc{margin:0.625rem 1rem;padding:0.625rem 0.75rem;
+  border:1px solid var(--g200);border-radius:var(--r);
+  font-size:var(--fs-xs);color:var(--g500);text-align:center;line-height:1.7;}
+.fe-unlock-btn{display:block;margin:0.5rem 1rem 0;border:1px dashed var(--g300);
+  border-radius:var(--r);padding:0.5rem;font-size:0.6rem;
+  color:var(--g500);background:transparent;cursor:pointer;text-align:center;
+  font-family:var(--sans);}
+
+/* SCREEN 7 - FORMULA ENGINE */
+#s7 .scroll-body{padding:0;}
+.fe-header{background:var(--black);padding:0.75rem 1rem;}
+.fe-title{color:var(--white);font-size:var(--fs-md);font-weight:700;}
+.fe-sub{color:rgba(255,255,255,.5);font-size:var(--fs-xs);margin-top:0.1rem;}
+.fe-warning{background:#fffbf0;border:1px solid #e0c050;border-radius:var(--r);
+  margin:0.75rem 1rem 0.5rem;padding:0.625rem 0.75rem;
+  font-size:var(--fs-xs);color:#7a5500;line-height:1.6;}
+.fe-calc-block{border:1px solid var(--g200);border-radius:var(--r);
+  margin:0 1rem 0.625rem;overflow:hidden;}
+.fe-calc-hdr{background:var(--g100);padding:0.5rem 0.75rem;
+  border-bottom:1px solid var(--g200);font-size:var(--fs-sm);font-weight:700;
+  color:var(--black);display:flex;align-items:center;justify-content:space-between;}
+.fe-calc-code{font-size:0.6rem;background:var(--black);color:var(--white);
+  border-radius:3px;padding:0.1rem 0.4rem;font-family:monospace;margin-left:0.4rem;}
+.fe-modified-dot{width:0.5rem;height:0.5rem;background:#c47f00;
+  border-radius:50%;display:inline-block;margin-left:0.4rem;}
+.fe-fields{padding:0.625rem 0.75rem;display:grid;
+  grid-template-columns:1fr 1fr;gap:0.375rem 0.5rem;}
+.fe-field{display:flex;flex-direction:column;gap:0.15rem;}
+.fe-field-label{font-size:0.6rem;font-weight:600;color:var(--g500);
+  letter-spacing:.04em;}
+.fe-field-input{border:1px solid var(--g300);border-radius:4px;
+  padding:0.35rem 0.5rem;font-size:var(--fs-sm);font-weight:700;
+  color:var(--black);outline:none;width:100%;background:var(--white);}
+.fe-field-input:focus{border-color:var(--black);box-shadow:0 0 0 2px rgba(0,0,0,.08);}
+.fe-field-input.changed{border-color:#c47f00;background:#fffbf0;}
+.fe-actions{padding:1rem;display:flex;gap:0.5rem;position:sticky;
+  bottom:0;background:var(--white);border-top:1px solid var(--g200);}
+.fe-save-btn{flex:2;background:var(--black);color:var(--white);border:none;
+  border-radius:var(--r);padding:0.875rem;font-size:var(--fs-base);
+  font-weight:700;cursor:pointer;font-family:var(--sans);}
+.fe-reset-btn{flex:1;border:1.5px solid var(--g300);border-radius:var(--r);
+  padding:0.875rem;font-size:var(--fs-sm);font-weight:600;
+  color:var(--g700);background:var(--white);cursor:pointer;font-family:var(--sans);}
+.fe-toast{position:fixed;bottom:5rem;left:50%;transform:translateX(-50%);
+  background:var(--black);color:var(--white);padding:0.5rem 1.25rem;
+  border-radius:2rem;font-size:var(--fs-sm);font-weight:600;
+  opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;white-space:nowrap;}
+.fe-toast.show{opacity:1;}
+
+@media print{
+  .topbar,.bottom-nav,.act-row,.open-btn-wrap,.footer-note{display:none!important;}
+  .stage-wrap{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- SCREEN 1: DISCLAIMER -->
+<div class="screen active" id="s1">
+  <div class="scroll-body">
+    <img id="logoImg1" alt="The Prarambha Business Consultancy" class="logo-img" style="margin-top:1.25rem;">
+    <div class="disc-card">
+      <div class="disc-card-title">अस्वीकरण — DISCLAIMER &amp; TERMS OF USE</div>
+      <div class="disc-card-text">
+        हे वेब ॲप्लिकेशन <strong>केवळ शैक्षणिक आणि माहितीपर उद्देशासाठी</strong> आहे.
+        महाराष्ट्र शासनाच्या अधिकृत गॅझेट, नियमपुस्तिका व सार्वजनिक स्रोतांवर आधारित.<br><br>
+        हे ॲप्लिकेशन कोणत्याही शासकीय विभागाशी संलग्न नाही.
+        कोणताही निर्णय घेण्यापूर्वी <strong>अधिकृत शासकीय स्रोताशी पडताळणी अनिवार्य</strong>.<br><br>
+      </div>
+    </div>
+    <div class="disc-check-row">
+      <div class="disc-cb" id="discCb" onclick="toggleDisclaimer()"></div>
+      <div class="disc-cb-text" onclick="toggleDisclaimer()">
+        मला वरील सर्व अटी व कायदेशीर शर्ती मंजूर आहेत.
+        <em style="color:var(--g500);"> (I Accept all terms)</em>
+      </div>
+    </div>
+    <button class="proceed-btn" id="proceedBtn" onclick="goTo('s2')">PROCEED TO DASHBOARD →</button>
+    <div style="height:1rem;"></div>
+  </div>
+  <div class="footer-note">
+    <div class="fn-edu">🎓 FOR EDUCATIONAL PURPOSE ONLY &nbsp;|&nbsp; <span class="fn-warn">⚠️ हे शासनाचे अधिकृत Application नाही</span></div>
+    <div><span class="fn-disc" onclick="goTo('s1')">📑 अस्वीकरण अटी व शर्ती वाचा (View Disclaimer) ▼</span></div>
+    <div class="fn-copy">© 2026 All Rights Reserved. Created by THE PRARAMBHA BUSINESS CONSULTANCY</div>
+  </div>
+</div>
+
+<!-- SCREEN 2: DASHBOARD -->
+<div class="screen" id="s2">
+  <div class="topbar" style="flex-direction:column;align-items:flex-start;gap:0.2rem;">
+    <div class="dash-header-row">
+      <div>
+        <div class="dash-main-title">FOR STATE EXCISE MAHARASHTRA</div>
+        <div class="dash-main-sub">MRP MASTER CALCULATOR &nbsp;·&nbsp; 31 Calculators &nbsp;·&nbsp; 7 Categories</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-body">
+    <div class="cat-grid" id="catGrid"></div>
+    <div class="dash-hint">Category वर क्लिक करा → Type निवडा → Calculator उघडा</div>
+  </div>
+  <div class="bottom-nav">
+    <div class="bnav on" onclick="goTo('s2')">Home</div>
+    <div class="bnav" onclick="goTo('s5')">History</div>
+    <div class="bnav" onclick="goTo('s6')">About</div>
+  </div>
+  <div class="footer-note">
+    <div class="fn-edu">🎓 FOR EDUCATIONAL PURPOSE ONLY &nbsp;|&nbsp; <span class="fn-warn">⚠️ हे शासनाचे अधिकृत Application नाही</span></div>
+    <div><span class="fn-disc" onclick="goTo('s1')">📑 अस्वीकरण अटी व शर्ती वाचा (View Disclaimer) ▼</span></div>
+    <div id="pwaInstallBtn" style="display:none;margin-top:0.2rem;">
+      <span onclick="triggerInstall()" style="font-size:var(--fs-xs);font-weight:700;color:var(--black);cursor:pointer;text-decoration:underline;">
+        📲 Install App on your device
+      </span>
+    </div>
+    <div class="fn-copy">© 2026 All Rights Reserved. Created by THE PRARAMBHA BUSINESS CONSULTANCY</div>
+  </div>
+</div>
+
+<!-- SCREEN 3: TYPE SELECT -->
+<div class="screen" id="s3">
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="back-btn" onclick="goTo('s2')">←</span>
+      <div>
+        <div class="topbar-title" id="s3Title"></div>
+        <div class="topbar-sub" id="s3Sub"></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-body">
+    <div class="type-section-label">प्रकार निवडा — SELECT TYPE</div>
+    <div class="type-list" id="typeList"></div>
+    <div class="open-btn-wrap">
+      <button class="open-btn" id="openCalcBtn" onclick="openCalc()">CALCULATOR उघडा →</button>
+    </div>
+    <div style="height:1rem;"></div>
+  </div>
+  <div class="footer-note">
+    <div class="fn-edu">🎓 FOR EDUCATIONAL PURPOSE ONLY &nbsp;|&nbsp; <span class="fn-warn">⚠️ हे शासनाचे अधिकृत Application नाही</span></div>
+    <div><span class="fn-disc" onclick="goTo('s1')">📑 अस्वीकरण अटी व शर्ती वाचा (View Disclaimer) ▼</span></div>
+    <div class="fn-copy">© 2026 All Rights Reserved. Created by THE PRARAMBHA BUSINESS CONSULTANCY</div>
+  </div>
+</div>
+
+<!-- SCREEN 4: CALCULATOR -->
+<div class="screen" id="s4">
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="back-btn" onclick="goTo('s3')">←</span>
+      <div>
+        <div class="topbar-title" id="s4Title"></div>
+        <div class="topbar-sub" id="s4Sub"></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-body" id="s4Body"><div style="height:0.625rem;"></div></div>
+  <div class="footer-note">
+    <div class="fn-edu">🎓 FOR EDUCATIONAL PURPOSE ONLY &nbsp;|&nbsp; <span class="fn-warn">⚠️ हे शासनाचे अधिकृत Application नाही</span></div>
+    <div><span class="fn-disc" onclick="goTo('s1')">📑 अस्वीकरण अटी व शर्ती वाचा (View Disclaimer) ▼</span></div>
+    <div class="fn-copy">© 2026 All Rights Reserved. Created by THE PRARAMBHA BUSINESS CONSULTANCY</div>
+  </div>
+</div>
+
+<!-- SCREEN 5: HISTORY -->
+<div class="screen" id="s5">
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="back-btn" onclick="goTo('s2')">←</span>
+      <div>
+        <div class="topbar-title">Saved Calculations</div>
+        <div class="topbar-sub">जतन केलेल्या गणना · Offline stored</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-body">
+    <div class="hist-list" id="histList"></div>
+    <div class="offline-note">📴 सर्व data केवळ तुमच्या device वर · No cloud · No server</div>
+    <button class="hist-clear-btn" onclick="clearHistory()">Clear All History</button>
+    <div style="height:1rem;"></div>
+  </div>
+  <div class="footer-note">
+    <div class="fn-edu">🎓 FOR EDUCATIONAL PURPOSE ONLY &nbsp;|&nbsp; <span class="fn-warn">⚠️ हे शासनाचे अधिकृत Application नाही</span></div>
+    <div><span class="fn-disc" onclick="goTo('s1')">📑 अस्वीकरण अटी व शर्ती वाचा (View Disclaimer) ▼</span></div>
+    <div class="fn-copy">© 2026 All Rights Reserved. Created by THE PRARAMBHA BUSINESS CONSULTANCY</div>
+  </div>
+</div>
+
+<!-- SCREEN 6: ABOUT -->
+<div class="screen" id="s6">
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="back-btn" onclick="goTo('s2')">←</span>
+      <div>
+        <div class="topbar-title">About This App</div>
+        <div class="topbar-sub">MRP Master Calculator · v4.0</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-body">
+    <div class="about-logo-block">
+      <img id="aboutLogo" alt="The Prarambha Business Consultancy"
+        style="max-width:160px;height:auto;display:block;margin:0 auto 0.625rem;"
+        onclick="aboutLogoTap()">
+      <div class="about-co-name">THE PRARAMBHA BUSINESS CONSULTANCY</div>
+      <div class="about-co-sub">Consult · Solve · Grow</div>
+    </div>
+    <div class="about-rows">
+      <div class="a-row"><span class="a-lbl">App Name</span><span class="a-val">MRP Master Calculator</span></div>
+      <div class="a-row"><span class="a-lbl">Version</span><span class="a-val">v4.0 · 2026</span></div>
+      <div class="a-row"><span class="a-lbl">Calculators</span><span class="a-val">31 Calculators · 7 Categories</span></div>
+      <div class="a-row"><span class="a-lbl">Offline</span><span class="a-val">Yes — Works without internet</span></div>
+      <div class="a-row"><span class="a-lbl">Data Privacy</span><span class="a-val">No data sent to any server</span></div>
+      <div class="a-row"><span class="a-lbl">Contact</span>
+        <span class="a-val">prarambhadigital@gmail.com</span>
+      </div>
+      <div class="a-row"><span class="a-lbl">Source</span>
+        <span class="a-val">शासनाची अधिकृत संकेतस्थळे व सार्वजनिकरित्या उपलब्ध असलेली माहिती.</span>
+      </div>
+      <div class="a-row"><span class="a-lbl">Created by</span><span class="a-val">The Prarambha Business Consultancy</span></div>
+    </div>
+    <div class="about-disc">हे application केवळ शैक्षणिक उद्देशासाठी आहे.<br>सर्व अधिकार © 2026 The Prarambha Business Consultancy.</div>
+    <button class="fe-unlock-btn" id="feUnlockBtn" onclick="goTo('s7')">⚙ Formula Engine</button>
+    <div style="height:1rem;"></div>
+  </div>
+  <div class="footer-note">
+    <div class="fn-edu">🎓 FOR EDUCATIONAL PURPOSE ONLY &nbsp;|&nbsp; <span class="fn-warn">⚠️ हे शासनाचे अधिकृत Application नाही</span></div>
+    <div><span class="fn-disc" onclick="goTo('s1')">📑 अस्वीकरण अटी व शर्ती वाचा (View Disclaimer) ▼</span></div>
+    <div class="fn-copy">© 2026 All Rights Reserved. Created by THE PRARAMBHA BUSINESS CONSULTANCY</div>
+  </div>
+</div>
+
+<!-- SCREEN 7: FORMULA ENGINE -->
+<div class="screen" id="s7">
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="back-btn" onclick="goTo('s6')">←</span>
+      <div>
+        <div class="topbar-title">⚙ Formula Engine</div>
+        <div class="topbar-sub">सूत्र संपादक — Constants Edit करा</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-body" id="feBody">
+    <div class="fe-warning">
+      ⚠️ <strong>सावधान:</strong> येथे बदल केल्यास सर्व calculators मध्ये लगेच effect होईल.
+      बदल करण्यापूर्वी अधिकृत शासन आदेश / GR पडताळा.<br>
+      Default values वर परत यायचे असल्यास <strong>Reset to Default</strong> वापरा.
+    </div>
+    <div id="feFields"></div>
+    <div style="height:5rem;"></div>
+  </div>
+  <div class="fe-actions">
+    <button class="fe-reset-btn" onclick="feReset()">↺ Reset to Default</button>
+    <button class="fe-save-btn" onclick="feSave()">✓ Save All Changes</button>
+  </div>
+  <div class="footer-note">
+    <div class="fn-edu">🎓 FOR EDUCATIONAL PURPOSE ONLY &nbsp;|&nbsp; <span class="fn-warn">⚠️ हे शासनाचे अधिकृत Application नाही</span></div>
+    <div><span class="fn-disc" onclick="goTo('s1')">📑 अस्वीकरण अटी व शर्ती वाचा (View Disclaimer) ▼</span></div>
+    <div class="fn-copy">© 2026 All Rights Reserved. Created by THE PRARAMBHA BUSINESS CONSULTANCY</div>
+  </div>
+  <div class="fe-toast" id="feToast"></div>
+</div>
+
+</div><!-- #app -->
+<script>
+'use strict';
+
+// ── LOGO — stored once, injected into both img elements ──
+const LOGO_SRC = './icons/icon-512.png';
+(function injectLogos(){
+  const imgs = ['logoImg1','aboutLogo'];
+  // Wait for DOM then inject
+  function inject(){
+    imgs.forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.src = LOGO_SRC;
+    });
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded', inject);
+  } else { inject(); }
+})();
+
+// ═══════════════════════════════════════════════════════════════
+// FORMULA DEFAULTS — Single source of truth
+// All editable constants for all 31 calculators
+// ═══════════════════════════════════════════════════════════════
+const FORMULA_DEFAULTS = {
+  A1:{mrp_mult:4.5, excA_mult:2.2, excB_base:180, excB_proof:0.75, vat_default:40},
+  A2:{mrp_mult:4.5, excA_mult:2.2, excB_base:155, excB_proof:0.625, vat_default:40},
+  A3:{mrp_mult:4.5, excA_mult:2.2, excB_base:250, excB_proof:0.75, vat_default:40},
+  B1:{mrp_mult_low:6.5, mrp_mult_high:5.0, mc_threshold:260, mc_high_extra:4,
+      excA_mult_low:4.5, excA_mult_high:3.0, excB_base:750, vat_default:40},
+  B2:{mrp_mult_low:3.8, mc_threshold:120, mc_high_extra:5,
+      excA_mult:1.8, excB_base:180, vat_default:40},
+  B3:{mrp_mult_low:2.6, mc_threshold:120, mc_high_extra:5,
+      excA_mult:0.6, excB_base:135, vat_default:40},
+  B4:{mrp_mult:5.0, excise_base:50, vat_default:40},
+  B5:{mrp_mult:6.5, excA_mult:4.5, excB_base:750, vat_default:40},
+  C1:{mrp_mult:4.60, excA_mult:2.35, excB_base:80, vat_default:40},
+  C2:{mrp_mult:4.0,  excA_mult:2.35, excB_base:80, vat_default:40},
+  C3:{mrp_mult:4.0,  excise_per_bl:60, vat_default:40},
+  D1:{mrp_mult:3.75, excA_mult:1.75, excB_base:42, vat_default:40},
+  D2:{mrp_mult:3.5,  excA_mult:1.75, excB_base:42, vat_default:40},
+  E1:{mrp_mult:3.0, excise_per_bl:10, cutoff_per_bl:75, vat_default:20},
+  E2:{mrp_mult:4.0, excA_mult:1.0,   cutoff_per_bl:40, vat_default:20},
+  E3:{mrp_mult:4.0, excA_mult:1.25,  cutoff_per_bl:40, vat_default:20},
+  E4:{mrp_mult:4.0, excA_mult:1.50,  cutoff_per_bl:40, vat_default:20},
+  E5:{mrp_mult:4.0, excA_mult:2.0,   cutoff_per_bl:40, vat_default:20},
+  E6:{mrp_mult:3.6, excA_mult:0.6,   cutoff_per_bl:40, vat_default:20},
+  E7:{mrp_mult:2.7, excise_per_bl:10, cutoff_per_bl:40, vat_default:20},
+  F1:{mrp_mult:4.60, excA_mult:2.35, excB_base:80,  vat_default:40},
+  F2:{mrp_mult:3.75, excA_mult:1.75, excB_base:42,  vat_default:40},
+  F3:{mrp_mult:4.25, excA_mult:2.0,  excB_base:200, vat_default:40},
+  F4:{mrpA_mult:3.5, mrpB_mult:3.75,
+      excA_multA:1.5, excB_baseA:33, excA_multB:1.75, excB_baseB:42, vat_default:40},
+  G1:{mrp_mult:3.5, mc_threshold:210, mc_high_extra:4,
+      excA_mult:1.5, excB_base:450, vat_default:40},
+  G2:{mrp_mult:2.0, special_fee_per_bl:400, vat_default:20},
+  G3:{mrp_mult:2.0, special_fee_per_bl:300, vat_default:20},
+  G4:{mrp_mult:2.0, special_fee_pct:5,      vat_default:20},
+  G5:{mrp_mult:4.0, excA_mult:2.35, excB_base:80, vat_default:40},
+  G6:{mrp_mult:3.5, excA_mult:1.75, excB_base:42, vat_default:40},
+  G7:{mrp_mult:4.60, excA_mult:2.35, excB_base:80, vat_default:40},
+  G8:{mrpA_mult:3.5, mrpB_mult:3.75,
+      excA_multA:1.5, excB_baseA:33, excA_multB:1.75, excB_baseB:42, vat_default:40}
+};
+
+// ── Formula Engine: load from localStorage or use defaults ──
+function getFP(id) {
+  const saved = JSON.parse(localStorage.getItem('mrp_formulas') || '{}');
+  return Object.assign({}, FORMULA_DEFAULTS[id], saved[id] || {});
+}
+function isModified(id) {
+  const saved = JSON.parse(localStorage.getItem('mrp_formulas') || '{}');
+  return !!(saved[id] && Object.keys(saved[id]).length > 0);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CALCULATION ENGINE — uses getFP() for all constants
+// ═══════════════════════════════════════════════════════════════
+function calcResult(id, mc, size, boxes, vat, proof, cd) {
+  const p = getFP(id);
+  const ps = proof || 42;
+  const bl = size / 1000;
+
+  switch(id) {
+    case 'A1': case 'A2': case 'A3': {
+      const optA = mc * p.excA_mult;
+      const optB = p.excB_base * p.excB_proof * bl;
+      const excise = Math.max(optA, optB);
+      const mrpPre = mc * p.mrp_mult;
+      const vatAmt = mrpPre * vat / 100;
+      return {optA, optB, excise, isA: optA >= optB,
+              mrpPre, vatAmt, final: mrpPre + vatAmt, exciseBox: excise * boxes};
+    }
+    case 'B1': {
+      const optA = mc <= p.mc_threshold ? mc * p.excA_mult_low : mc * p.excA_mult_high;
+      const optB = p.excB_base * ps * bl;
+      const excise = Math.max(optA, optB);
+      const mrpPre = mc <= p.mc_threshold
+        ? mc * p.mrp_mult_low
+        : (mc * p.mrp_mult_high) + (mc - p.mc_threshold) * p.mc_high_extra;
+      const vatAmt = mrpPre * vat / 100;
+      return {optA, optB, excise, isA: optA >= optB,
+              mrpPre, vatAmt, final: mrpPre + vatAmt, exciseBox: excise * boxes};
+    }
+    case 'B2': case 'B3': {
+      const optA = mc * p.excA_mult;
+      const optB = p.excB_base * ps * bl;
+      const excise = Math.max(optA, optB);
+      const mrpPre = mc <= p.mc_threshold
+        ? mc * p.mrp_mult_low
+        : (mc * p.mrp_mult_low) + (mc - p.mc_threshold) * p.mc_high_extra;
+      const vatAmt = mrpPre * vat / 100;
+      return {optA, optB, excise, isA: optA >= optB,
+              mrpPre, vatAmt, final: mrpPre + vatAmt, exciseBox: excise * boxes};
+    }
+    case 'B4': {
+      const excise = p.excise_base * ps * bl;
+      const mrpPre = mc * p.mrp_mult;
+      const vatAmt = mrpPre * vat / 100;
+      return {excise, isA: true, mrpPre, vatAmt,
+              final: mrpPre + vatAmt, exciseBox: excise * boxes};
+    }
+    case 'B5': {
+      const optA = mc * p.excA_mult;
+      const optB = p.excB_base * ps * bl;
+      const excise = Math.max(optA, optB);
+      const mrpPre = mc * p.mrp_mult;
+      const vatAmt = mrpPre * vat / 100;
+      return {optA, optB, excise, isA: optA >= optB,
+              mrpPre, vatAmt, final: mrpPre + vatAmt, exciseBox: excise * boxes};
+    }
+    case 'C1': case 'F1': case 'F2': case 'F3': {
+      const optA = mc * p.excA_mult;
+      const optB = p.excB_base * bl;
+      const excise = Math.max(optA, optB);
+      const mrpPre = mc * p.mrp_mult;
+      const vatAmt = mrpPre * vat / 100;
+      return {optA, optB, excise, isA: optA >= optB,
+              mrpPre, vatAmt, final: mrpPre + vatAmt, exciseBox: excise * boxes};
+    }
+    case 'C2': case 'D2': case 'G5': case 'G6': case 'G7': {
+      const optA = mc * p.excA_mult;
+      const optB = p.excB_base * bl;
+      const excise = Math.max(optA, optB);
+      const mrpPre = mc * p.mrp_mult;
+      const vatAmt = mrpPre * vat / 100;
+      const cdAmt = cd || 0;
+      return {optA, optB, excise, isA: optA >= optB,
+              mrpPre, vatAmt, final: mrpPre + cdAmt + vatAmt,
+              exciseBox: excise * boxes, cd: cdAmt};
+    }
+    case 'C3': {
+      const excise = p.excise_per_bl * bl;
+      const mrpPre = mc * p.mrp_mult;
+      const vatAmt = mrpPre * vat / 100;
+      return {excise, isA: true, mrpPre, vatAmt,
+              final: mrpPre + vatAmt, exciseBox: excise * boxes};
+    }
+    case 'D1': {
+      const optA = mc * p.excA_mult;
+      const optB = p.excB_base * bl;
+      const excise = Math.max(optA, optB);
+      const mrpPre = mc * p.mrp_mult;
+      const vatAmt = mrpPre * vat / 100;
+      return {optA, optB, excise, isA: optA >= optB,
+              mrpPre, vatAmt, final: mrpPre + vatAmt, exciseBox: excise * boxes};
+    }
+    case 'E1': case 'E7': {
+      const excise = p.excise_per_bl * bl;
+      const cutoff = p.cutoff_per_bl * bl;
+      const mrpPre = mc <= cutoff ? mc * p.mrp_mult : (mc * p.mrp_mult) + (mc - cutoff);
+      const vatAmt = mrpPre * vat / 100;
+      return {excise, cutoff, mrpPre, vatAmt,
+              final: mrpPre + vatAmt, exciseBox: excise * boxes};
+    }
+    case 'E2': case 'E3': case 'E4': case 'E5': case 'E6': {
+      const excise = mc * p.excA_mult;
+      const cutoff = p.cutoff_per_bl * bl;
+      const mrpPre = mc <= cutoff ? mc * p.mrp_mult : (mc * p.mrp_mult) + (mc - cutoff);
+      const vatAmt = mrpPre * vat / 100;
+      return {excise, cutoff, mrpPre, vatAmt,
+              final: mrpPre + vatAmt, exciseBox: excise * boxes};
+    }
+    case 'F4': case 'G8': {
+      const cdAmt = cd || 0;
+      const exciseA = Math.max(mc * p.excA_multA, p.excB_baseA * bl);
+      const exciseB = Math.max(mc * p.excA_multB, p.excB_baseB * bl);
+      const mrpA = mc * p.mrpA_mult;
+      const mrpB = mc * p.mrpB_mult;
+      const vatAmtA = mrpA * vat / 100;
+      const vatAmtB = mrpB * vat / 100;
+      return {exciseA, exciseB, mrpA, mrpB,
+              vatAmtA, vatAmtB, cd: cdAmt,
+              finalA: mrpA + cdAmt + vatAmtA,
+              finalB: mrpB + cdAmt + vatAmtB};
+    }
+    case 'G1': {
+      const optA = mc * p.excA_mult;
+      const optB = p.excB_base * bl;
+      const excise = Math.max(optA, optB);
+      const mrpPre = mc <= p.mc_threshold
+        ? mc * p.mrp_mult
+        : (mc * p.mrp_mult) + (mc - p.mc_threshold) * p.mc_high_extra;
+      const cdAmt = cd || 0;
+      const vatAmt = mrpPre * vat / 100;
+      return {optA, optB, excise, isA: optA >= optB,
+              mrpPre, vatAmt, final: mrpPre + cdAmt + vatAmt,
+              exciseBox: excise * boxes, cd: cdAmt};
+    }
+    case 'G2': case 'G3': {
+      const specialFee = p.special_fee_per_bl * bl;
+      const mrpPre = mc * p.mrp_mult;
+      const vatAmt = mrpPre * vat / 100;
+      const cdAmt = cd || 0;
+      return {excise: specialFee, specialFee, mrpPre, vatAmt,
+              final: mrpPre + specialFee + cdAmt + vatAmt,
+              exciseBox: specialFee * boxes, cd: cdAmt};
+    }
+    case 'G4': {
+      const mrpPre = mc * p.mrp_mult;
+      const specialFee = mrpPre * p.special_fee_pct / 100;
+      const vatAmt = mrpPre * vat / 100;
+      const cdAmt = cd || 0;
+      return {excise: specialFee, specialFee, mrpPre, vatAmt,
+              final: mrpPre + specialFee + cdAmt + vatAmt,
+              exciseBox: specialFee * boxes, cd: cdAmt};
+    }
+    default: return null;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FORMULA DISPLAY TEXT — reads from getFP()
+// ═══════════════════════════════════════════════════════════════
+function getFormulaRows(id) {
+  const p = getFP(id);
+  const mod = isModified(id);
+  const tag = mod ? ' <span class="stage-modified">⚡ MODIFIED</span>' : ' <span class="stage-badge">AUTHORIZED</span>';
+
+  const rows = {
+    A1: [
+      {sr:'1', d:'Excise Duty\n(Per Bottle)', f:`HIGHER OF:\n• Opt A = MC × ${p.excA_mult}\n• Opt B = ${p.excB_base} × ${p.excB_proof} × (Size ÷ 1000)`, hi:true},
+      {sr:'2', d:'MRP (Excl. VAT)', f:`MC × ${p.mrp_mult}`},
+      {sr:'3', d:'VAT', f:'MRP × VAT% ÷ 100'},
+      {sr:'4', d:'Final MRP', f:'MRP + VAT'}
+    ],
+    A2: [
+      {sr:'1', d:'Excise Duty\n(Per Bottle)', f:`HIGHER OF:\n• Opt A = MC × ${p.excA_mult}\n• Opt B = ${p.excB_base} × ${p.excB_proof} × (Size ÷ 1000)`, hi:true},
+      {sr:'2', d:'MRP (Excl. VAT)', f:`MC × ${p.mrp_mult}`},
+      {sr:'3', d:'VAT', f:'MRP × VAT% ÷ 100'}, {sr:'4', d:'Final MRP', f:'MRP + VAT'}
+    ],
+    A3: [
+      {sr:'1', d:'Excise Duty\n(Per Bottle)', f:`HIGHER OF:\n• Opt A = MC × ${p.excA_mult}\n• Opt B = ${p.excB_base} × ${p.excB_proof} × (Size ÷ 1000)`, hi:true},
+      {sr:'2', d:'MRP (Excl. VAT)', f:`MC × ${p.mrp_mult}`},
+      {sr:'3', d:'VAT', f:'MRP × VAT% ÷ 100'}, {sr:'4', d:'Final MRP', f:'MRP + VAT'}
+    ],
+    B1: [
+      {sr:'1', d:'Excise (MC ≤ ₹'+p.mc_threshold+')', f:`HIGHER OF:\n• Opt A = MC × ${p.excA_mult_low}\n• Opt B = ${p.excB_base} × Proof × (Size ÷ 1000)`, hi:true},
+      {sr:'2', d:'Excise (MC > ₹'+p.mc_threshold+')', f:`HIGHER OF:\n• Opt A = MC × ${p.excA_mult_high}\n• Opt B = ${p.excB_base} × Proof × (Size ÷ 1000)`, hi:true},
+      {sr:'3', d:'MRP (MC ≤ ₹'+p.mc_threshold+')', f:`MC × ${p.mrp_mult_low}`},
+      {sr:'4', d:'MRP (MC > ₹'+p.mc_threshold+')', f:`(MC × ${p.mrp_mult_high}) + (MC − ${p.mc_threshold}) × ${p.mc_high_extra}`},
+      {sr:'5', d:'VAT', f:'MRP × VAT% ÷ 100'}, {sr:'6', d:'Final MRP', f:'MRP + VAT'}
+    ],
+    B2: [
+      {sr:'1', d:'Excise Duty', f:`HIGHER OF:\n• Opt A = MC × ${p.excA_mult}\n• Opt B = ${p.excB_base} × Proof × (Size ÷ 1000)`, hi:true},
+      {sr:'2', d:'MRP (MC ≤ ₹'+p.mc_threshold+')', f:`MC × ${p.mrp_mult_low}`},
+      {sr:'3', d:'MRP (MC > ₹'+p.mc_threshold+')', f:`(MC × ${p.mrp_mult_low}) + (MC − ${p.mc_threshold}) × ${p.mc_high_extra}`},
+      {sr:'4', d:'VAT', f:'MRP × VAT% ÷ 100'}, {sr:'5', d:'Final MRP', f:'MRP + VAT'}
+    ],
+    B3: [
+      {sr:'1', d:'Excise Duty', f:`HIGHER OF:\n• Opt A = MC × ${p.excA_mult}\n• Opt B = ${p.excB_base} × Proof × (Size ÷ 1000)`, hi:true},
+      {sr:'2', d:'MRP (MC ≤ ₹'+p.mc_threshold+')', f:`MC × ${p.mrp_mult_low}`},
+      {sr:'3', d:'MRP (MC > ₹'+p.mc_threshold+')', f:`(MC × ${p.mrp_mult_low}) + (MC − ${p.mc_threshold}) × ${p.mc_high_extra}`},
+      {sr:'4', d:'VAT', f:'MRP × VAT% ÷ 100'}, {sr:'5', d:'Final MRP', f:'MRP + VAT'}
+    ],
+    B4: [
+      {sr:'1', d:'Excise Duty', f:`${p.excise_base} × Proof × (Size ÷ 1000)`},
+      {sr:'2', d:'MRP (Excl. VAT)', f:`MC × ${p.mrp_mult}`},
+      {sr:'3', d:'VAT', f:'MRP × VAT% ÷ 100'}, {sr:'4', d:'Final MRP', f:'MRP + VAT'}
+    ],
+    B5: [
+      {sr:'1', d:'Excise Duty', f:`HIGHER OF:\n• Opt A = MC × ${p.excA_mult}\n• Opt B = ${p.excB_base} × Proof × (Size ÷ 1000)`, hi:true},
+      {sr:'2', d:'MRP (Excl. VAT)', f:`MC × ${p.mrp_mult}`},
+      {sr:'3', d:'VAT', f:'MRP × VAT% ÷ 100'}, {sr:'4', d:'Final MRP', f:'MRP + VAT'}
+    ]
+  };
+
+  // Generic builders for common patterns
+  const stdHigher = (p) => [
+    {sr:'1', d:'Excise Duty\n(Per Bottle)', f:`HIGHER OF:\n• Opt A = MC × ${p.excA_mult}\n• Opt B = ${p.excB_base} × (Size ÷ 1000)`, hi:true},
+    {sr:'2', d:'MRP (Excl. VAT)', f:`MC × ${p.mrp_mult}`},
+    {sr:'3', d:'VAT', f:'MRP × VAT% ÷ 100'}, {sr:'4', d:'Final MRP', f:'MRP + VAT'}
+  ];
+  const stdHigherCD = (p) => [
+    {sr:'1', d:'Excise Duty', f:`HIGHER OF:\n• Opt A = MC × ${p.excA_mult}\n• Opt B = ${p.excB_base} × (Size ÷ 1000)`, hi:true},
+    {sr:'2', d:'MRP (CD+VAT excl.)', f:`MC × ${p.mrp_mult}`},
+    {sr:'3', d:'Custom Duty', f:'As applicable'},
+    {sr:'4', d:'VAT', f:'MRP × VAT% ÷ 100'}, {sr:'5', d:'Final MRP', f:'MRP + CD + VAT'}
+  ];
+  const wineFixed = (p) => [
+    {sr:'1', d:'Excise Duty', f:`${p.excise_per_bl} × (Size ÷ 1000)`},
+    {sr:'2', d:'Cut-off Value', f:`(Size ÷ 1000) × ${p.cutoff_per_bl}`},
+    {sr:'3', d:`MRP (MC ≤ Cut-off)`, f:`MC × ${p.mrp_mult}`},
+    {sr:'4', d:`MRP (MC > Cut-off)`, f:`(MC × ${p.mrp_mult}) + (MC − Cut-off)`},
+    {sr:'5', d:'VAT', f:'MRP × VAT% ÷ 100'}, {sr:'6', d:'Final MRP', f:'MRP + VAT'}
+  ];
+  const wineExcA = (p) => [
+    {sr:'1', d:'Excise Duty', f:`MC × ${p.excA_mult}`},
+    {sr:'2', d:'Cut-off Value', f:`(Size ÷ 1000) × ${p.cutoff_per_bl}`},
+    {sr:'3', d:`MRP (MC ≤ Cut-off)`, f:`MC × ${p.mrp_mult}`},
+    {sr:'4', d:`MRP (MC > Cut-off)`, f:`(MC × ${p.mrp_mult}) + (MC − Cut-off)`},
+    {sr:'5', d:'VAT', f:'MRP × VAT% ÷ 100'}, {sr:'6', d:'Final MRP', f:'MRP + VAT'}
+  ];
+  const dualMild = (p) => [
+    {sr:'1', d:'Excise Mild-A', f:`HIGHER OF: MC × ${p.excA_multA} OR ${p.excB_baseA} × (Size ÷ 1000)`, hi:true},
+    {sr:'2', d:'MRP Mild-A', f:`MC × ${p.mrpA_mult}`},
+    {sr:'3', d:'Excise Mild-B', f:`HIGHER OF: MC × ${p.excA_multB} OR ${p.excB_baseB} × (Size ÷ 1000)`, hi:true},
+    {sr:'4', d:'MRP Mild-B', f:`MC × ${p.mrpB_mult}`},
+    {sr:'5', d:'VAT', f:'MRP × VAT% ÷ 100'}, {sr:'6', d:'Final MRP', f:'MRP + VAT'}
+  ];
+
+  const rowMap = {
+    A1: rows.A1, A2: rows.A2, A3: rows.A3,
+    B1: rows.B1, B2: rows.B2, B3: rows.B3,
+    B4: rows.B4, B5: rows.B5,
+    C1: stdHigher(p), C3: [
+      {sr:'1', d:'Excise Duty', f:`${p.excise_per_bl} × (Size ÷ 1000)`},
+      {sr:'2', d:'MRP (Excl. VAT)', f:`MC × ${p.mrp_mult}`},
+      {sr:'3', d:'VAT', f:'MRP × VAT% ÷ 100'}, {sr:'4', d:'Final MRP', f:'MRP + VAT'},
+      {sr:'Note', d:'Applicable for', f:'Craft Beer ≤ 14 Proof / 8% v/v'}
+    ],
+    C2: stdHigherCD(p), D1: stdHigher(p), D2: stdHigherCD(p),
+    E1: wineFixed(p), E2: wineExcA(p), E3: wineExcA(p),
+    E4: wineExcA(p), E5: wineExcA(p), E6: wineExcA(p), E7: wineFixed(p),
+    F1: stdHigher(p), F2: stdHigher(p), F3: stdHigher(p),
+    F4: dualMild(p), G8: dualMild(p),
+    G1: [
+      {sr:'1', d:'Excise Duty', f:`HIGHER OF:\n• MC × ${p.excA_mult}\n• ${p.excB_base} × (Size ÷ 1000)`, hi:true},
+      {sr:'2', d:`MRP (MC ≤ ₹${p.mc_threshold})`, f:`MC × ${p.mrp_mult}`},
+      {sr:'3', d:`MRP (MC > ₹${p.mc_threshold})`, f:`(MC × ${p.mrp_mult}) + (MC − ${p.mc_threshold}) × ${p.mc_high_extra}`},
+      {sr:'4', d:'Custom Duty', f:'As applicable'},
+      {sr:'5', d:'VAT', f:'MRP × VAT% ÷ 100'}, {sr:'6', d:'Final MRP', f:'MRP + CD + VAT'}
+    ],
+    G2: [
+      {sr:'1', d:'Special Fee', f:`${p.special_fee_per_bl} × (Size ÷ 1000)`},
+      {sr:'2', d:'MRP (Fee+CD+VAT excl.)', f:`MC × ${p.mrp_mult}`},
+      {sr:'3', d:'Custom Duty', f:'As applicable'},
+      {sr:'4', d:'VAT', f:'MRP × VAT% ÷ 100'},
+      {sr:'5', d:'Final MRP', f:'MRP + Fee + CD + VAT'},
+      {sr:'Note', d:'Applicable when', f:'Final MRP ≤ ₹900'}
+    ],
+    G3: [
+      {sr:'1', d:'Special Fee', f:`${p.special_fee_per_bl} × (Size ÷ 1000)`},
+      {sr:'2', d:'MRP (Fee+CD+VAT excl.)', f:`MC × ${p.mrp_mult}`},
+      {sr:'3', d:'Custom Duty', f:'As applicable'},
+      {sr:'4', d:'VAT', f:'MRP × VAT% ÷ 100'},
+      {sr:'5', d:'Final MRP', f:'MRP + Fee + CD + VAT'},
+      {sr:'Note', d:'Applicable when', f:'₹900 < MRP ≤ ₹6,000'}
+    ],
+    G4: [
+      {sr:'1', d:'Special Fee', f:`MRP × ${p.special_fee_pct}%`},
+      {sr:'2', d:'MRP (Fee+CD+VAT excl.)', f:`MC × ${p.mrp_mult}`},
+      {sr:'3', d:'Custom Duty', f:'As applicable'},
+      {sr:'4', d:'VAT', f:'MRP × VAT% ÷ 100'},
+      {sr:'5', d:'Final MRP', f:'MRP + Fee + CD + VAT'},
+      {sr:'Note', d:'Applicable when', f:'Final MRP > ₹6,000'}
+    ],
+    G5: stdHigherCD(p), G6: stdHigherCD(p), G7: stdHigherCD(p)
+  };
+
+  return {tag, rws: rowMap[id] || []};
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CATEGORIES DATA
+// ═══════════════════════════════════════════════════════════════
+const CATEGORIES = [
+  {code:'A', nameMr:'Country Liquor', subMr:'देशी दारू', types:[
+    {id:'A1',codeMr:'A-1',nameMr:'Regular Country Liquor',subMr:'नियमित देशी दारू · Molasses & Grain Spirit'},
+    {id:'A2',codeMr:'A-2',nameMr:'Low Strength Country Liquor',subMr:'कमी ताकदीची देशी दारू'},
+    {id:'A3',codeMr:'A-3',nameMr:'Colour Country Liquor',subMr:'रंगीत देशी दारू · Grain Spirit'}
+  ]},
+  {code:'B', nameMr:'IMFL Spirit', subMr:'स्पिरिट', types:[
+    {id:'B1',codeMr:'B-1',nameMr:'Civilian IMFL',subMr:'सामान्य IMFL'},
+    {id:'B2',codeMr:'B-2',nameMr:'CSD — IMFL',subMr:'Canteen Store Dept. IMFL'},
+    {id:'B3',codeMr:'B-3',nameMr:'CSD — RUM',subMr:'Canteen Store Dept. Rum'},
+    {id:'B4',codeMr:'B-4',nameMr:'Indigenous Liquor',subMr:'स्वदेशी दारू'},
+    {id:'B5',codeMr:'B-5',nameMr:'Maharashtra Made Liquor (MML)',subMr:'महाराष्ट्र निर्मित दारू'}
+  ]},
+  {code:'C', nameMr:'Fermented Beer', subMr:'किण्वित बिअर', types:[
+    {id:'C1',codeMr:'C-1',nameMr:'Civilian',subMr:'सामान्य'},
+    {id:'C2',codeMr:'C-2',nameMr:'CSD — Canteen Store Dept.',subMr:'Canteen Store Dept.'},
+    {id:'C3',codeMr:'C-3',nameMr:'Craft Beer',subMr:'क्राफ्ट बिअर · ≤ 14 Proof / 8% v/v'}
+  ]},
+  {code:'D', nameMr:'Mild Beer', subMr:'माइल्ड बिअर', types:[
+    {id:'D1',codeMr:'D-1',nameMr:'Civilian',subMr:'सामान्य'},
+    {id:'D2',codeMr:'D-2',nameMr:'CSD — Canteen Store Dept.',subMr:'Canteen Store Dept.'}
+  ]},
+  {code:'E', nameMr:'Wine', subMr:'वाइन', types:[
+    {id:'E1',codeMr:'E-1',nameMr:'Grapes in State — No Alcohol',subMr:'राज्यातील द्राक्षे · अल्कोहोल नाही'},
+    {id:'E2',codeMr:'E-2',nameMr:'Fruits other than Grapes',subMr:'द्राक्षे वगळता इतर फळे'},
+    {id:'E3',codeMr:'E-3',nameMr:'Grapes in State — With Alcohol',subMr:'राज्यातील द्राक्षे · अल्कोहोलसह'},
+    {id:'E4',codeMr:'E-4',nameMr:'Own Brand — Bulk from Outside',subMr:'स्वतःचा ब्रँड · बाहेरून Bulk'},
+    {id:'E5',codeMr:'E-5',nameMr:'Foreign Brand — Bulk from Outside',subMr:'परदेशी ब्रँड · बाहेरून Bulk'},
+    {id:'E6',codeMr:'E-6',nameMr:'CSD — Blending with Outside Wine',subMr:'CSD · बाहेरील Wine Blending'},
+    {id:'E7',codeMr:'E-7',nameMr:'CSD — Grapes from Maharashtra',subMr:'CSD · महाराष्ट्रातील द्राक्षे'}
+  ]},
+  {code:'F', nameMr:'Liquors', subMr:'लिकर्स', types:[
+    {id:'F1',codeMr:'F-1',nameMr:'Fermented Liquors',subMr:'किण्वित लिकर'},
+    {id:'F2',codeMr:'F-2',nameMr:'Mild Liquors (A)',subMr:'माइल्ड लिकर A'},
+    {id:'F3',codeMr:'F-3',nameMr:'Mild Liquors (B)',subMr:'माइल्ड लिकर B'},
+    {id:'F4',codeMr:'F-4',nameMr:'CSD — Fermented / Mild (Dual)',subMr:'CSD · Dual Result'}
+  ]},
+  {code:'G', nameMr:'Import (Out of India)', subMr:'परदेशातून आयात', types:[
+    {id:'G1',codeMr:'G-1',nameMr:'Foreign Liquor',subMr:'परदेशी दारू'},
+    {id:'G2',codeMr:'G-2',nameMr:'Wine (MRP ≤ ₹900)',subMr:'वाइन MRP ≤ ₹900'},
+    {id:'G3',codeMr:'G-3',nameMr:'Wine (₹900 < MRP ≤ ₹6,000)',subMr:'वाइन ₹900-₹6000'},
+    {id:'G4',codeMr:'G-4',nameMr:'Wine (MRP > ₹6,000)',subMr:'वाइन MRP > ₹6000'},
+    {id:'G5',codeMr:'G-5',nameMr:'Fermented Beer (Import)',subMr:'किण्वित बिअर · आयात'},
+    {id:'G6',codeMr:'G-6',nameMr:'Mild Beer (Import)',subMr:'माइल्ड बिअर · आयात'},
+    {id:'G7',codeMr:'G-7',nameMr:'Liquors — Fermented (Import)',subMr:'लिकर · किण्वित · आयात'},
+    {id:'G8',codeMr:'G-8',nameMr:'Liquors — Mild (Import)',subMr:'लिकर · माइल्ड · आयात'}
+  ]}
+];
+
+// ═══════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════
+const fmt2 = n => '₹' + Number(n).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2});
+const fmtR = n => '₹' + Math.round(n).toLocaleString('en-IN');
+const fmtN = n => Number(n).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2});
+const el = id => document.getElementById(id);
+
+// ═══════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  el(id).classList.add('active');
+  if (id === 's5') renderHistory();
+  if (id === 's7') renderFormulaEngine();
+}
+
+function toggleDisclaimer() {
+  const cb = el('discCb'), btn = el('proceedBtn');
+  cb.classList.toggle('checked');
+  btn.classList.toggle('enabled', cb.classList.contains('checked'));
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SCREEN 2: DASHBOARD
+// ═══════════════════════════════════════════════════════════════
+function renderDash() {
+  const g = el('catGrid');
+  if (!g) return;
+  g.innerHTML = CATEGORIES.map(cat => `
+    <div class="cat-card" onclick="openCategory('${cat.code}')">
+      <div class="cat-code">${cat.code}</div>
+      <div class="cat-div"></div>
+      <div class="cat-name">${cat.nameMr}</div>
+      <div class="cat-mr">${cat.subMr}</div>
+      <div class="cat-count">${cat.types.length} type${cat.types.length > 1 ? 's' : ''}</div>
+    </div>`).join('');
+}
+renderDash();
+
+// ═══════════════════════════════════════════════════════════════
+// SCREEN 3: TYPE SELECT
+// ═══════════════════════════════════════════════════════════════
+let currentCat = null, selectedTypeId = null, currentCalcId = null;
+
+function openCategory(code) {
+  currentCat = CATEGORIES.find(c => c.code === code);
+  selectedTypeId = currentCat.types[0].id;
+  el('s3Title').textContent = `${currentCat.code} · ${currentCat.nameMr} — ${currentCat.subMr}`;
+  el('s3Sub').textContent = `${currentCat.types.length} calculator types · प्रकार निवडा`;
+  renderTypeList();
+  updateOpenBtn();
+  goTo('s3');
+}
+
+function renderTypeList() {
+  const list = el('typeList');
+  list.innerHTML = currentCat.types.map(t => `
+    <div class="type-item ${t.id === selectedTypeId ? 'sel' : ''}" onclick="selectType('${t.id}')">
+      <div class="ti-left">
+        <span class="ti-code">${t.codeMr}</span>
+        <div>
+          <div class="ti-name">${t.nameMr}</div>
+          <div class="ti-mr">${t.subMr}</div>
+        </div>
+      </div>
+      <span class="ti-arr">›</span>
+    </div>`).join('');
+}
+
+function selectType(id) {
+  selectedTypeId = id;
+  renderTypeList();
+  updateOpenBtn();
+}
+
+function updateOpenBtn() {
+  const t = currentCat.types.find(x => x.id === selectedTypeId);
+  el('openCalcBtn').textContent = `${t.codeMr} — CALCULATOR उघडा →`;
+}
+
+function openCalc() {
+  currentCalcId = selectedTypeId;
+  renderCalc(currentCalcId);
+  goTo('s4');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SCREEN 4: CALCULATOR RENDER
+// ═══════════════════════════════════════════════════════════════
+// Input config per calculator type
+const INPUT_CONFIG = {
+  needsProof: ['B1','B2','B3','B4','B5'],
+  needsCd:    ['C2','D2','G1','G2','G3','G4','G5','G6','G7','G8'],
+  isDual:     ['F4','G8'],
+  isWine:     ['E1','E2','E3','E4','E5','E6','E7'],
+  // Size chips: A gets 90ml extra
+  sizeChipsA: [90, 180, 375, 750, 1000],
+  sizeChipsDefault: [180, 375, 750, 1000],
+  boxChipsA:  [12, 24, 48, 100],
+  boxChipsDefault: [12, 24, 48]
+};
+
+function renderCalc(id) {
+  const cat = CATEGORIES.find(c => c.code === id[0]);
+  const typeInfo = cat.types.find(t => t.id === id);
+  const p = getFP(id);
+  const mod = isModified(id);
+
+  el('s4Title').textContent = `${typeInfo.codeMr} · ${typeInfo.nameMr}`;
+  el('s4Sub').textContent = typeInfo.subMr + ' Calculator';
+
+  const needsProof = INPUT_CONFIG.needsProof.includes(id);
+  const needsCd    = INPUT_CONFIG.needsCd.includes(id);
+  const isACat     = id[0] === 'A';
+
+  const sizeChips = isACat ? INPUT_CONFIG.sizeChipsA : INPUT_CONFIG.sizeChipsDefault;
+  const boxChips  = isACat ? INPUT_CONFIG.boxChipsA  : INPUT_CONFIG.boxChipsDefault;
+
+  const {tag, rws} = getFormulaRows(id);
+  const formulaRows = rws.map(r => `
+    <tr>
+      <td class="srno">${r.sr}</td>
+      <td>${r.d.replace(/\n/g,'<br>')}</td>
+      <td>${r.hi ? '<div class="fhi">WHICHEVER IS HIGHER ↓</div>' : ''}<div class="fopt">${r.f.replace(/\n/g,'<br>')}</div></td>
+    </tr>`).join('');
+
+  const defVat = p.vat_default || 40;
+
+  let inputsHtml = `
+    <div class="inp-group">
+      <div class="inp-lbl">Manufacturing Cost (₹ / BL)</div>
+      <div class="inp-lbl-mr">उत्पादन खर्च</div>
+      <input class="inp-field" type="number" id="inp-mc" value="100" oninput="runCalc()" step="0.01" min="0">
+    </div>
+    <div class="inp-group">
+      <div class="inp-lbl">Bottle Size (ML)</div>
+      <div class="inp-lbl-mr">बाटलीचा आकार</div>
+      <div class="chips">${sizeChips.map(s=>`<div class="chip${s===750?' on':''}" onclick="setChip(this,'inp-size',${s})">${s}</div>`).join('')}</div>
+      <input class="inp-field" type="number" id="inp-size" value="750" oninput="runCalc()" style="margin-top:0.375rem;" min="1">
+    </div>
+    <div class="inp-group">
+      <div class="inp-lbl">Bottles / Box</div>
+      <div class="inp-lbl-mr">प्रति बॉक्स बाटल्या</div>
+      <div class="chips">${boxChips.map(b=>`<div class="chip${b===48?' on':''}" onclick="setChip(this,'inp-boxes',${b})">${b}</div>`).join('')}</div>
+      <input class="inp-field" type="number" id="inp-boxes" value="48" oninput="runCalc()" style="margin-top:0.375rem;" min="1">
+    </div>`;
+
+  if (needsProof) inputsHtml += `
+    <div class="inp-group">
+      <div class="inp-lbl">Proof Strength</div>
+      <div class="inp-lbl-mr">प्रूफ स्ट्रेंथ</div>
+      <input class="inp-field" type="number" id="inp-proof" value="42" oninput="runCalc()" step="0.01" min="0">
+    </div>`;
+
+  if (needsCd) inputsHtml += `
+    <div class="inp-group">
+      <div class="inp-lbl">Custom Duty (₹ per bottle)</div>
+      <div class="inp-lbl-mr">सीमा शुल्क</div>
+      <input class="inp-field" type="number" id="inp-cd" value="0" oninput="runCalc()" step="0.01" min="0" placeholder="0">
+    </div>`;
+
+  inputsHtml += `
+    <div class="inp-group">
+      <div class="inp-lbl">Rate of VAT (%)</div>
+      <div class="inp-lbl-mr">व्हॅट दर</div>
+      <div class="chips">
+        <div class="chip${defVat===20?' on':''}" onclick="setChip(this,'inp-vat',20)">20%</div>
+        <div class="chip${defVat===40?' on':''}" onclick="setChip(this,'inp-vat',40)">40%</div>
+      </div>
+      <input class="inp-field" type="number" id="inp-vat" value="${defVat}" oninput="runCalc()" style="margin-top:0.375rem;" min="0" max="100">
+    </div>
+    <button class="calc-btn" onclick="runCalc()">CALCULATE MRP →</button>`;
+
+  el('s4Body').innerHTML = `
+    <div style="height:0.625rem;"></div>
+    <div class="stage-wrap">
+      <div class="stage-hdr stage-hdr-toggle" onclick="toggleStage1(this)" style="cursor:pointer;-webkit-user-select:none;user-select:none;">
+        <div class="stage-num">1</div>
+        <div style="flex:1;">
+          <div class="stage-title">STAGE 1 · Official Formula ${tag}</div>
+          <div class="stage-sub-mr" id="stage1hint">अधिकृत शासकीय सूत्र — tap करून पाहा ▼</div>
+        </div>
+      </div>
+      <div style="padding:0.4rem 0.75rem;border-bottom:1px solid var(--g200);background:var(--g50);">
+        <button class="fe-edit-btn-visible" onclick="event.stopPropagation();goToFormulaEngine('${id}')">
+          ✏ Edit Formula — ${id}
+        </button>
+      </div>
+      <div class="stage1-body" style="display:none;">
+        <div class="stage-body" style="padding:0.375rem 0.5rem;">
+          <table class="ftbl">
+            <tr>
+              <th style="width:8%;">अ.क्र.</th>
+              <th style="width:28%;">तपशील</th>
+              <th>अधिकृत शासकीय सूत्र / नियम</th>
+            </tr>
+            ${formulaRows}
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="stage-wrap">
+      <div class="stage-hdr">
+        <div class="stage-num">2</div>
+        <div>
+          <div class="stage-title">STAGE 2 · Data Inputs</div>
+          <div class="stage-sub-mr">माहिती प्रविष्ट करा</div>
+        </div>
+      </div>
+      <div class="stage-body">${inputsHtml}</div>
+    </div>
+    <div class="stage-wrap">
+      <div class="stage-hdr">
+        <div class="stage-num">3</div>
+        <div>
+          <div class="stage-title">STAGE 3 · Calculation Report</div>
+          <div class="stage-sub-mr">स्वयंचलित गणना अहवाल</div>
+        </div>
+      </div>
+      <div class="stage-body" id="resultBody">
+        <div style="text-align:center;padding:1rem 0;color:var(--g500);font-size:var(--fs-sm);">
+          ↑ वरील inputs भरा आणि CALCULATE दाबा
+        </div>
+      </div>
+    </div>
+    <div style="height:0.875rem;"></div>`;
+
+  runCalc();
+}
+
+function setChip(el, fieldId, val) {
+  el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById(fieldId).value = val;
+  runCalc();
+}
+
+function toggleStage1(hdr) {
+  const body = hdr.parentElement.querySelector('.stage1-body');
+  const hint = hdr.querySelector('.stage-sub-mr');
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  if (hint) hint.textContent = isOpen
+    ? 'अधिकृत शासकीय सूत्र — tap करून पाहा ▼'
+    : 'अधिकृत शासकीय सूत्र — ▲ बंद करा';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RUN CALCULATION
+// ═══════════════════════════════════════════════════════════════
+function runCalc() {
+  if (!currentCalcId) return;
+  const mc    = parseFloat(el('inp-mc')?.value) || 0;
+  const size  = parseFloat(el('inp-size')?.value) || 750;
+  const boxes = parseFloat(el('inp-boxes')?.value) || 48;
+  const vat   = parseFloat(el('inp-vat')?.value) || getFP(currentCalcId).vat_default || 40;
+  const proof = parseFloat(el('inp-proof')?.value) || 42;
+  const cd    = parseFloat(el('inp-cd')?.value) || 0;
+
+  const r = calcResult(currentCalcId, mc, size, boxes, vat, proof, cd);
+  if (r) renderResult(r, mc, size, boxes, vat, cd);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER RESULT
+// ═══════════════════════════════════════════════════════════════
+function renderResult(r, mc, size, boxes, vat, cd) {
+  const rb = el('resultBody');
+  if (!rb) return;
+
+  // Dual (F4/G8)
+  if (r.finalA !== undefined) {
+    rb.innerHTML = `
+      <div class="r-hero">
+        <div class="r-hero-lbl">FINAL MRP — MILD-A / MILD-B</div>
+        <div style="display:flex;justify-content:center;gap:1.5rem;margin-top:0.375rem;">
+          <div style="text-align:center;">
+            <div style="font-size:var(--fs-xs);color:var(--g500);">Mild-A</div>
+            <div class="r-hero-val">${fmtR(r.finalA)}</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:var(--fs-xs);color:var(--g500);">Mild-B</div>
+            <div class="r-hero-val">${fmtR(r.finalB)}</div>
+          </div>
+        </div>
+        <div class="r-hero-dec">A: ${fmt2(r.finalA)} · B: ${fmt2(r.finalB)}</div>
+      </div>
+      ${qMatrix(size, boxes)}
+      ${basePrice(mc, r.mrpA, 'MRP Mild-A (excl.)')}
+      <div class="rsub">
+        <div class="rsub-hdr">3. एक्साईज ड्युटी — Excise Duty</div>
+        ${rrow('Excise Mild-A (Per Bottle)', fmt2(r.exciseA))}
+        ${rrowAlt('Excise Mild-B (Per Bottle)', fmt2(r.exciseB))}
+      </div>
+      ${dualTaxStruct(vat, r.vatAmtA, r.vatAmtB, cd)}
+      <div class="rsub">
+        <div class="rsub-hdr">4. दशांश किंमत — Final Price</div>
+        ${rrow('Final MRP Mild-A (Decimal)', fmt2(r.finalA))}
+        ${rrowAlt('Round off Mild-A', fmtR(r.finalA))}
+        ${rrow('Final MRP Mild-B (Decimal)', fmt2(r.finalB))}
+        ${rrowAlt('Round off Mild-B', fmtR(r.finalB))}
+      </div>
+      <div class="final-strip">
+        <div class="fs-lbl">MRP PER BOTTLE (A / B)</div>
+        <div>
+          <div class="fs-val">${fmtR(r.finalA)}</div>
+          <div style="font-size:var(--fs-xs);color:rgba(255,255,255,.5);text-align:right;">${fmtR(r.finalB)}</div>
+        </div>
+      </div>
+      ${actBtns(r.finalA, r.finalB)}`;
+    return;
+  }
+
+  // Wine with cutoff
+  if (r.cutoff !== undefined) {
+    rb.innerHTML = `
+      <div class="r-hero">
+        <div class="r-hero-lbl">FINAL MRP (WITH VAT)</div>
+        <div class="r-hero-val">${fmtR(r.final)}</div>
+        <div class="r-hero-dec">Decimal: ${fmt2(r.final)} &nbsp;·&nbsp; Round off: ${fmtR(r.final)}</div>
+        <div class="r-note">MRP per bottle · Bottles/Box बदलल्यास Per Box Excise बदलतो</div>
+      </div>
+      ${qMatrix(size, boxes)}
+      <div class="rsub">
+        <div class="rsub-hdr">2. मूळ किंमत रचना — Base Price</div>
+        ${rrow('Mfg Cost (BL)', fmt2(mc))}
+        ${rrowAlt('Cut-off Value', fmt2(r.cutoff))}
+        ${rrow('MRP Before VAT', fmt2(r.mrpPre))}
+      </div>
+      <div class="rsub">
+        <div class="rsub-hdr">3. कर संरचना — VAT</div>
+        ${rrow('VAT @ '+vat+'%', fmt2(r.vatAmt))}
+        ${r.cd !== undefined ? rrowAlt('Custom Duty', fmt2(r.cd)) : ''}
+      </div>
+      <div class="rsub">
+        <div class="rsub-hdr">4. दशांश किंमत — Final Price</div>
+        ${rrow('Final MRP (Decimal)', fmt2(r.final))}
+        ${rrowAlt('Round off MRP', fmtR(r.final))}
+      </div>
+      <div class="rsub">
+        <div class="rsub-hdr">5. एक्साईज ड्युटी — Excise Duty</div>
+        ${rrow('<strong>Per Bottle Excise</strong>', `<span class="rval-lg">${fmt2(r.excise)}</span>`)}
+        ${rrowAlt('<strong>Per Box Total Excise ('+boxes+' btls)</strong>', `<span class="rval-lg">${fmt2(r.exciseBox)}</span>`)}
+      </div>
+      <div class="final-strip">
+        <div class="fs-lbl">MRP PER BOTTLE</div>
+        <div class="fs-val">${fmtR(r.final)}</div>
+      </div>
+      ${actBtns(r.final)}`;
+    return;
+  }
+
+  // Standard
+  const hasOptAB = r.optA !== undefined;
+  const isSpecialFee = r.specialFee !== undefined;
+  const excLabel = isSpecialFee ? 'Special Fee' : 'Excise Duty';
+
+  rb.innerHTML = `
+    <div class="r-hero">
+      <div class="r-hero-lbl">FINAL MRP (WITH VAT)</div>
+      <div class="r-hero-val">${fmtR(r.final)}</div>
+      <div class="r-hero-dec">Decimal: ${fmt2(r.final)} &nbsp;·&nbsp; Round off: ${fmtR(r.final)}</div>
+      <div class="r-note">MRP per bottle · Bottles/Box बदलल्यास Per Box Excise बदलतो</div>
+    </div>
+    ${qMatrix(size, boxes)}
+    ${basePrice(mc, r.mrpPre)}
+    <div class="rsub">
+      <div class="rsub-hdr">3. कर संरचना — VAT</div>
+      ${rrow('VAT @ '+vat+'%', fmt2(r.vatAmt))}
+      ${r.cd !== undefined && r.cd > 0 ? rrowAlt('Custom Duty', fmt2(r.cd)) : ''}
+    </div>
+    <div class="rsub">
+      <div class="rsub-hdr">4. दशांश किंमत — Final Price</div>
+      ${rrow('Final MRP (Decimal)', fmt2(r.final))}
+      ${rrowAlt('Round off MRP', fmtR(r.final))}
+    </div>
+    <div class="rsub">
+      <div class="rsub-hdr">5. ${isSpecialFee?'स्पेशल फी':'एक्साईज ड्युटी'} — ${excLabel}</div>
+      ${hasOptAB ? `
+        ${rrow('Option '+(r.isA?'A':'B')+' Active <span class="ract">ACTIVE</span>', '')}
+        ${rrow('Opt A', r.isA ? fmt2(r.optA) : `<span class="rina">${fmt2(r.optA)}</span>`)}
+        ${rrowAlt('Opt B', !r.isA ? fmt2(r.optB) : `<span class="rina">${fmt2(r.optB)}</span>`)}
+      ` : ''}
+      ${rrow('<strong>Per Bottle '+excLabel+'</strong>', `<span class="rval-lg">${fmt2(r.excise || r.specialFee || 0)}</span>`)}
+      ${rrowAlt('<strong>Per Box Total ('+boxes+' btls)</strong>', `<span class="rval-lg">${fmt2(r.exciseBox)}</span>`)}
+    </div>
+    <div class="final-strip">
+      <div class="fs-lbl">MRP PER BOTTLE</div>
+      <div class="fs-val">${fmtR(r.final)}</div>
+    </div>
+    ${actBtns(r.final)}`;
+}
+
+// Result helpers
+const rrow    = (l, v) => `<div class="rrow"><span class="rlbl">${l}</span><span class="rval">${v}</span></div>`;
+const rrowAlt = (l, v) => `<div class="rrow rrow-alt"><span class="rlbl">${l}</span><span class="rval">${v}</span></div>`;
+const qMatrix = (size, boxes) => `
+  <div class="rsub">
+    <div class="rsub-hdr">1. परिमाण मॅट्रिक्स — Quantity Matrix</div>
+    ${rrow('Size of Bottle', size+' ML')}
+    ${rrowAlt('Per Box Qty', boxes+' Bottles')}
+  </div>`;
+const basePrice = (mc, mrpPre, label='MRP Before Tax') => `
+  <div class="rsub">
+    <div class="rsub-hdr">2. मूळ किंमत रचना — Base Price</div>
+    ${rrow('Mfg Cost (BL)', fmt2(mc))}
+    ${rrowAlt(label, fmt2(mrpPre))}
+  </div>`;
+const taxStruct = (vat, vatAmt, cd) => `
+  <div class="rsub">
+    <div class="rsub-hdr">3. कर संरचना — Tax Structure</div>
+    ${rrow('VAT @ '+vat+'%', fmt2(vatAmt))}
+    ${cd > 0 ? rrowAlt('Custom Duty', fmt2(cd)) : ''}
+  </div>`;
+
+const dualTaxStruct = (vat, vatAmtA, vatAmtB, cd) => `
+  <div class="rsub">
+    <div class="rsub-hdr">3. कर संरचना — Tax Structure</div>
+    ${rrow('VAT @ '+vat+'% (Mild-A)', fmt2(vatAmtA))}
+    ${rrowAlt('VAT @ '+vat+'% (Mild-B)', fmt2(vatAmtB))}
+    ${cd > 0 ? rrow('Custom Duty (CD)', fmt2(cd)) : ''}
+  </div>`;
+const actBtns = (mrp1, mrp2) => `
+  <div class="act-row">
+    <button class="act-btn" onclick="doShare(${mrp1}${mrp2 !== undefined ? ','+mrp2 : ''})">📤 Share</button>
+    <button class="act-btn" onclick="doSave()">💾 Save</button>
+  </div>
+  <div style="height:0.875rem;"></div>`;
+
+// ═══════════════════════════════════════════════════════════════
+// SHARE & SAVE
+// ═══════════════════════════════════════════════════════════════
+function doShare(mrp1, mrp2) {
+  if (!currentCalcId) return;
+  const cat = CATEGORIES.find(c => c.code === currentCalcId[0]);
+  const typeInfo = cat.types.find(t => t.id === currentCalcId);
+  const p = getFP(currentCalcId);
+  const mc    = parseFloat(el('inp-mc')?.value) || 0;
+  const size  = parseFloat(el('inp-size')?.value) || 750;
+  const boxes = parseFloat(el('inp-boxes')?.value) || 48;
+  const vat   = parseFloat(el('inp-vat')?.value) || p.vat_default || 40;
+  const proof = parseFloat(el('inp-proof')?.value) || 42;
+  const cd    = parseFloat(el('inp-cd')?.value) || 0;
+  const r = calcResult(currentCalcId, mc, size, boxes, vat, proof, cd);
+
+  let exciseBtl = 0, exciseBox = 0;
+  if (r.finalA !== undefined) { exciseBtl = r.exciseA; exciseBox = r.exciseA * boxes; }
+  else { exciseBtl = r.excise || r.specialFee || 0; exciseBox = r.exciseBox || 0; }
+
+  // Build formula summary from current formula params
+  const fp = getFP(currentCalcId);
+  let formulaSummary = '';
+  if (fp.mrp_mult)       formulaSummary += `MRP = MC × ${fp.mrp_mult}`;
+  if (fp.mrp_mult_low)   formulaSummary += `MRP = MC × ${fp.mrp_mult_low} (MC≤${fp.mc_threshold}) / MC × ${fp.mrp_mult_high} (MC>${fp.mc_threshold})`;
+  if (fp.mrpA_mult)      formulaSummary += `MRP-A = MC × ${fp.mrpA_mult} | MRP-B = MC × ${fp.mrpB_mult}`;
+  if (fp.excA_mult !== undefined && fp.excB_base) formulaSummary += ` | Excise = Higher of (MC×${fp.excA_mult}) or (${fp.excB_base}×Size÷1000)`;
+  if (fp.excise_per_bl)  formulaSummary += ` | Excise = ₹${fp.excise_per_bl}/BL`;
+  if (fp.excA_mult !== undefined && !fp.excB_base && !fp.excise_per_bl) formulaSummary += ` | Excise = MC × ${fp.excA_mult}`;
+  if (fp.cutoff_per_bl)  formulaSummary += ` | Cut-off = ₹${fp.cutoff_per_bl}/BL`;
+  if (fp.special_fee_per_bl) formulaSummary += ` | Special Fee = ₹${fp.special_fee_per_bl}/BL`;
+  if (fp.special_fee_pct)    formulaSummary += ` | Special Fee = ${fp.special_fee_pct}% of MRP`;
+  const modNote = isModified(currentCalcId) ? ' ⚡ [MODIFIED via Formula Engine]' : ' [DEFAULT]';
+
+  let text = '🧾 MRP Calculator Result\n';
+  text += '━━━━━━━━━━━━━━━━━━━━━━\n';
+  text += `📋 Calculator: ${typeInfo.codeMr} · ${typeInfo.nameMr}\n`;
+  text += `📦 Bottle Size: ${size} ML\n`;
+  text += `🏭 Manufacturing Cost: ₹${fmtN(mc)} / BL\n`;
+  text += `📫 Bottles per Box: ${boxes}\n`;
+  text += '━━━━━━━━━━━━━━━━━━━━━━\n';
+  text += `💰 Final MRP: ${fmtR(mrp1)}${mrp2 !== undefined ? ' / ' + fmtR(mrp2) : ''} per bottle\n`;
+  text += `📊 Excise Duty (Per Bottle): ₹${fmtN(exciseBtl)}\n`;
+  text += `📦 Excise Duty (Per Box / ${boxes} btls): ₹${fmtN(exciseBox)}\n`;
+  text += '━━━━━━━━━━━━━━━━━━━━━━\n';
+  text += `📐 Formula Used${modNote}\n`;
+  text += `   ${formulaSummary} | VAT = ${vat}%\n`;
+  text += '━━━━━━━━━━━━━━━━━━━━━━\n';
+  text += '🎓 FOR EDUCATIONAL PURPOSE ONLY\n';
+  text += '⚠️ हे शासनाचे अधिकृत Application नाही\n';
+  text += '⚠️ Verify with official sources before use.\n';
+  text += '📧 Contacts & Suggestions: prarambhadigital@gmail.com\n';
+  text += '— The Prarambha Business Consultancy';
+
+  if (navigator.share) {
+    navigator.share({title: 'MRP Calculator — ' + typeInfo.nameMr, text}).catch(() => fallbackCopy(text));
+  } else { fallbackCopy(text); }
+}
+
+function fallbackCopy(text) {
+  // Try modern clipboard API first
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text)
+      .then(() => showToast('✅ Result copied to clipboard!'))
+      .catch(() => showCopyModal(text));
+  } else {
+    showCopyModal(text);
+  }
+}
+
+function showCopyModal(text) {
+  // Remove existing modal if any
+  const existing = document.getElementById('copyModal');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'copyModal';
+  modal.style.cssText = `
+    position:fixed;top:0;left:0;right:0;bottom:0;
+    background:rgba(0,0,0,.6);z-index:9999;
+    display:flex;align-items:center;justify-content:center;
+    padding:1rem;
+  `;
+  modal.innerHTML = `
+    <div style="background:#fff;border-radius:0.75rem;padding:1.25rem;
+      width:100%;max-width:400px;max-height:80vh;display:flex;flex-direction:column;gap:0.75rem;">
+      <div style="font-size:1rem;font-weight:700;color:#111;">📋 Result Copy करा</div>
+      <div style="font-size:0.75rem;color:#888;">खाली सर्व text select करा → Copy करा</div>
+      <textarea id="copyTextarea" readonly
+        style="width:100%;height:200px;border:1.5px solid #111;border-radius:0.5rem;
+          padding:0.625rem;font-size:0.75rem;font-family:monospace;
+          color:#111;resize:none;outline:none;">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</textarea>
+      <div style="display:flex;gap:0.5rem;">
+        <button onclick="selectAllCopy()" style="flex:2;background:#111;color:#fff;
+          border:none;border-radius:0.5rem;padding:0.75rem;font-size:0.875rem;
+          font-weight:700;cursor:pointer;font-family:inherit;">
+          Select All & Copy
+        </button>
+        <button onclick="document.getElementById('copyModal').remove()"
+          style="flex:1;border:1.5px solid #111;border-radius:0.5rem;
+          padding:0.75rem;font-size:0.875rem;font-weight:600;
+          background:#fff;cursor:pointer;font-family:inherit;">
+          Close
+        </button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  // Auto-select text
+  setTimeout(() => {
+    const ta = document.getElementById('copyTextarea');
+    if (ta) { ta.focus(); ta.select(); }
+  }, 100);
+}
+
+function selectAllCopy() {
+  const ta = document.getElementById('copyTextarea');
+  if (!ta) return;
+  ta.select();
+  ta.setSelectionRange(0, 99999);
+  try {
+    document.execCommand('copy');
+    showToast('✅ Copied!');
+    setTimeout(() => {
+      const m = document.getElementById('copyModal');
+      if (m) m.remove();
+    }, 800);
+  } catch(e) {
+    showToast('Select करा आणि manually copy करा');
+  }
+}
+
+function showToast(msg) {
+  const t = el('feToast') || document.body;
+  if (el('feToast')) { el('feToast').textContent = msg; el('feToast').classList.add('show'); }
+  else { const d = document.createElement('div'); d.className='fe-toast show'; d.textContent=msg; document.body.appendChild(d); setTimeout(()=>d.remove(),2500); return; }
+  setTimeout(() => el('feToast').classList.remove('show'), 2500);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// HISTORY
+// ═══════════════════════════════════════════════════════════════
+function doSave() {
+  if (!currentCalcId) return;
+  const cat = CATEGORIES.find(c => c.code === currentCalcId[0]);
+  const typeInfo = cat.types.find(t => t.id === currentCalcId);
+  const mc    = parseFloat(el('inp-mc')?.value) || 0;
+  const size  = parseFloat(el('inp-size')?.value) || 750;
+  const boxes = parseFloat(el('inp-boxes')?.value) || 48;
+  const vat   = parseFloat(el('inp-vat')?.value) || getFP(currentCalcId).vat_default || 40;
+  const proof = parseFloat(el('inp-proof')?.value) || 42;
+  const cd    = parseFloat(el('inp-cd')?.value) || 0;
+  const r = calcResult(currentCalcId, mc, size, boxes, vat, proof, cd);
+  const finalMrp = r.finalA !== undefined ? r.finalA : r.final;
+
+  const hist = JSON.parse(localStorage.getItem('mrp_history') || '[]');
+  hist.unshift({
+    id: currentCalcId, code: typeInfo.codeMr, name: typeInfo.nameMr,
+    mc, size, boxes, vat, proof, cd,
+    mrp: Math.round(finalMrp),
+    ts: new Date().toLocaleDateString('en-IN')
+  });
+  if (hist.length > 50) hist.pop();
+  localStorage.setItem('mrp_history', JSON.stringify(hist));
+  showToast('✅ Saved to History!');
+}
+
+function renderHistory() {
+  const hist = JSON.parse(localStorage.getItem('mrp_history') || '[]');
+  const list = el('histList');
+  if (!list) return;
+  if (!hist.length) {
+    list.innerHTML = '<div class="hist-empty">अजून कोणतीही गणना जतन केलेली नाही.<br>Calculator वापरा → Save दाबा.</div>';
+    return;
+  }
+  list.innerHTML = hist.map((h, i) => `
+    <div class="hist-item ${i === 0 ? 'first' : ''}">
+      <div class="hist-left">
+        <div class="h-code">${h.code} · ${h.name}</div>
+        <div class="h-meta">${h.size} ML · ${h.boxes} Btls · MC ₹${h.mc} · VAT ${h.vat}% · ${h.ts}</div>
+      </div>
+      <div class="h-btns">
+        <button class="h-reopen" onclick="reopenCalc(${i})">↩ Open</button>
+        <div class="h-mrp-box">
+          <div class="h-mrp-val">${fmtR(h.mrp)}</div>
+          <div class="h-mrp-lbl">per bottle</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function reopenCalc(idx) {
+  const hist = JSON.parse(localStorage.getItem('mrp_history') || '[]');
+  const h = hist[idx];
+  if (!h) return;
+  const cat = CATEGORIES.find(c => c.code === h.id[0]);
+  currentCat = cat;
+  selectedTypeId = h.id;
+  currentCalcId = h.id;
+  renderCalc(h.id);
+  goTo('s4');
+  // Fill inputs after render
+  setTimeout(() => {
+    if (el('inp-mc'))    el('inp-mc').value    = h.mc;
+    if (el('inp-size'))  el('inp-size').value  = h.size;
+    if (el('inp-boxes')) el('inp-boxes').value = h.boxes;
+    if (el('inp-vat'))   el('inp-vat').value   = h.vat;
+    if (el('inp-proof') && h.proof) el('inp-proof').value = h.proof;
+    if (el('inp-cd') && h.cd)      el('inp-cd').value    = h.cd;
+    runCalc();
+  }, 50);
+}
+
+function clearHistory() {
+  if (confirm('सर्व saved calculations delete करायची?')) {
+    localStorage.removeItem('mrp_history');
+    renderHistory();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// FORMULA ENGINE — Screen 7
+// ═══════════════════════════════════════════════════════════════
+// Field labels for Formula Engine UI
+const FE_FIELD_LABELS = {
+  mrp_mult:       'MRP Multiplier',
+  mrp_mult_low:   'MRP Mult (Low)',
+  mrp_mult_high:  'MRP Mult (High)',
+  mrpA_mult:      'MRP Mult (Mild-A)',
+  mrpB_mult:      'MRP Mult (Mild-B)',
+  excA_mult:      'Excise Opt-A Mult',
+  excA_mult_low:  'Excise Opt-A (Low)',
+  excA_mult_high: 'Excise Opt-A (High)',
+  excA_multA:     'Excise-A Mult (A)',
+  excA_multB:     'Excise-A Mult (B)',
+  excB_base:      'Excise Opt-B Base',
+  excB_baseA:     'Excise-B Base (A)',
+  excB_baseB:     'Excise-B Base (B)',
+  excB_proof:     'Excise Opt-B Proof Factor',
+  excise_base:    'Excise Base Rate',
+  excise_per_bl:  'Excise Rate (₹/BL)',
+  cutoff_per_bl:  'Cut-off Rate (₹/BL)',
+  mc_threshold:   'MC Threshold (₹)',
+  mc_high_extra:  'MC Extra Multiplier',
+  special_fee_per_bl: 'Special Fee (₹/BL)',
+  special_fee_pct:'Special Fee (%)',
+  vat_default:    'VAT Default (%)',
+  special_fee_pct: 'Special Fee (%)'
+};
+
+function renderFormulaEngine() {
+  const saved = JSON.parse(localStorage.getItem('mrp_formulas') || '{}');
+  const container = el('feFields');
+  if (!container) return;
+
+  container.innerHTML = CATEGORIES.map(cat =>
+    cat.types.map(type => {
+      const id = type.id;
+      const defaults = FORMULA_DEFAULTS[id];
+      const current = Object.assign({}, defaults, saved[id] || {});
+      const mod = saved[id] && Object.keys(saved[id]).length > 0;
+
+      const fields = Object.keys(defaults).map(key => `
+        <div class="fe-field">
+          <div class="fe-field-label">${FE_FIELD_LABELS[key] || key}</div>
+          <input class="fe-field-input${current[key] !== defaults[key] ? ' changed' : ''}"
+            type="number" step="0.001" min="0"
+            data-id="${id}" data-key="${key}"
+            value="${current[key]}"
+            oninput="feFieldChange(this)">
+        </div>`).join('');
+
+      return `
+        <div class="fe-calc-block" id="fe-block-${id}">
+          <div class="fe-calc-hdr">
+            <div>
+              ${type.nameMr}
+              <span class="fe-calc-code">${type.codeMr}</span>
+              ${mod ? '<span class="fe-modified-dot" title="Modified"></span>' : ''}
+            </div>
+          </div>
+          <div class="fe-fields">${fields}</div>
+        </div>`;
+    }).join('')
+  ).join('');
+}
+
+function feFieldChange(input) {
+  const val = parseFloat(input.value);
+  const id = input.dataset.id;
+  const key = input.dataset.key;
+  const defaultVal = FORMULA_DEFAULTS[id][key];
+  input.classList.toggle('changed', val !== defaultVal);
+}
+
+function feSave() {
+  const inputs = document.querySelectorAll('.fe-field-input');
+  const result = {};
+  inputs.forEach(inp => {
+    const id = inp.dataset.id;
+    const key = inp.dataset.key;
+    const val = parseFloat(inp.value);
+    const def = FORMULA_DEFAULTS[id][key];
+    if (!isNaN(val) && val !== def) {
+      if (!result[id]) result[id] = {};
+      result[id][key] = val;
+    }
+  });
+  localStorage.setItem('mrp_formulas', JSON.stringify(result));
+  // Immediately re-render active calculator if open
+  if (currentCalcId) {
+    renderCalc(currentCalcId);
+  }
+  showToast('✅ Formula changes saved & applied!');
+  // Re-render engine to update badges
+  setTimeout(() => renderFormulaEngine(), 300);
+}
+
+function feReset() {
+  if (!confirm('सर्व formula defaults वर reset करायचे?\nसर्व बदल जातील!')) return;
+  localStorage.removeItem('mrp_formulas');
+  renderFormulaEngine();
+  showToast('✅ Reset to defaults!');
+}
+
+// Navigate to Formula Engine and highlight specific calculator
+function goToFormulaEngine(calcId) {
+  goTo('s7');
+  // Wait for render then scroll to the block
+  setTimeout(() => {
+    const block = document.getElementById('fe-block-' + calcId);
+    if (block) {
+      block.scrollIntoView({behavior:'smooth', block:'center'});
+      block.classList.add('fe-highlight');
+      setTimeout(() => block.classList.remove('fe-highlight'), 2200);
+    }
+  }, 120);
+}
+
+// About logo tap counter (for future use)
+let aboutTapCount = 0;
+function aboutLogoTap() { aboutTapCount++; }
+
+// ═══════════════════════════════════════════════════════════════
+// SERVICE WORKER (Offline)
+// ═══════════════════════════════════════════════════════════════
+// ── PWA Install Prompt ──
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show install hint in footer after 3 seconds
+  setTimeout(() => {
+    const installBtn = document.getElementById('pwaInstallBtn');
+    if (installBtn) installBtn.style.display = 'block';
+  }, 3000);
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredPrompt = null;
+  const installBtn = document.getElementById('pwaInstallBtn');
+  if (installBtn) installBtn.style.display = 'none';
+});
+
+function triggerInstall() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(choice => {
+    deferredPrompt = null;
+  });
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    // Try external sw.js first (GitHub Pages / production)
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => {
+        console.log('[PWA] SW registered. Scope:', reg.scope);
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              newWorker.postMessage({type: 'SKIP_WAITING'});
+            }
+          });
+        });
+      })
+      .catch(() => {
+        // Fallback: inline SW for local/preview use
+        const swCode = `
+const C='mrp-v4';
+const ASSETS=['/'];
+self.addEventListener('install',e=>{
+  e.waitUntil(caches.open(C).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));
+});
+self.addEventListener('activate',e=>{
+  e.waitUntil(caches.keys().then(keys=>Promise.all(
+    keys.filter(k=>k!==C).map(k=>caches.delete(k))
+  )).then(()=>self.clients.claim()));
+});
+self.addEventListener('fetch',e=>{
+  if(e.request.method!=='GET')return;
+  e.respondWith(
+    caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('/')))
+  );
+});`;
+        try {
+          const blob = new Blob([swCode], {type:'application/javascript'});
+          const url = URL.createObjectURL(blob);
+          navigator.serviceWorker.register(url)
+            .then(()=>console.log('[PWA] Inline SW registered (local mode)'))
+            .catch(()=>{});
+        } catch(e) {}
+      });
+  });
+}
+</script>
+</body>
+</html>
